@@ -19,17 +19,17 @@ create table users (
 	id integer primary key autoincrement,
 	first_name varchar(255),
 	last_name varchar(255),
-	question_per_quiz integer not null
+	questions_per_quiz integer not null
 );
 
 drop table if exists user_topics;
 create table user_topics (
 	user_id integer not null,
-	topic_id integer not null,
+	topic_type_id integer not null,
 
 	foreign key (user_id) references users(id),
-	foreign key (topic_id) references topics(id)
-	unique(user_id, topic_id)
+	foreign key (topic_type_id) references topics(id)
+	unique(user_id, topic_type_id)
 );
 
 drop table if exists expressions;
@@ -67,12 +67,13 @@ create table gaps (
 
 );
 
-drop table if exists expression_score;
-create table expression_score (
+drop table if exists user_expressions;
+create table user_expressions (
 	expression_id integer,
 	user_id integer,
 	score integer,
 	last_completed datetime,
+	learn boolean,
 
 	foreign key (expression_id) references expressions(id),
 	foreign key (user_id) references users(id),

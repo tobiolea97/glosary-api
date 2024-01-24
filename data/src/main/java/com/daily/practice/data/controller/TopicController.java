@@ -22,4 +22,10 @@ public class TopicController {
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
     }
 
+    @GetMapping("types")
+    public ResponseEntity<?> getTopicTypes() {
+        DataResponse dataResponse = topicsService.getTopicTypes();
+        return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
+    }
+
 }
