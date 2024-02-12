@@ -7,8 +7,12 @@ import com.daily.practice.data.response.DataResponse;
 import com.daily.practice.data.response.PersistResponse;
 import com.daily.practice.data.services.contract.IUserExpressionService;
 import com.daily.practice.data.utils.Results;
+import com.daily.practice.data.utils.Tools;
+import com.daily.practice.data.utils.errors.ErrorCodes;
+import com.daily.practice.data.utils.errors.ErrorDescriptions;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,8 +33,10 @@ public class UserExpressionService implements IUserExpressionService {
             );
             userExpression = userExpressionRepository.create(userExpression);
             persistResponse = new PersistResponse(Results.OK, "", userExpression, HttpStatus.OK);
+        } catch (UncategorizedSQLException e) {
+            persistResponse = Tools.getBadRequest(ErrorCodes.SQL_ERROR, e.getCause().getMessage());
         } catch (Exception e) {
-            persistResponse = new PersistResponse(Results.ERROR, e.getMessage(), null, HttpStatus.INTERNAL_SERVER_ERROR);
+            persistResponse = Tools.getBadRequest(ErrorCodes.COULD_NOT_SAVE_RECORD, ErrorDescriptions.COULD_NOT_SAVE_RECORD);
         } finally {
             return persistResponse;
         }

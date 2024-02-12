@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Gaps {
+public class Gap {
     private int id;
     private int exampleId;
     private int orderNumber;

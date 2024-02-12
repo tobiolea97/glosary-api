@@ -6,7 +6,10 @@ import com.daily.practice.data.response.DataResponse;
 import com.daily.practice.data.services.contract.IExpressionService;
 import com.daily.practice.data.utils.Results;
 import com.daily.practice.data.utils.Tools;
+import com.daily.practice.data.utils.errors.ErrorCodes;
+import com.daily.practice.data.utils.errors.ErrorDescriptions;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -36,8 +39,10 @@ public class ExpressionService implements IExpressionService {
         try {
             Expression expression = expressionRepository.getExpressionById(expressionId);
             dataResponse = new DataResponse(Results.OK, "", expression, HttpStatus.ACCEPTED);
+        } catch(EmptyResultDataAccessException e) {
+            dataResponse = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.NON_EXISTING_RECORD);
         } catch (Exception e) {
-            dataResponse = Tools.getDataResponseError(e, "");
+            dataResponse = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
         } finally {
             return dataResponse;
         }

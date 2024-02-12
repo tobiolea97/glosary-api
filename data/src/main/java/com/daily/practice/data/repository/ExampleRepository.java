@@ -21,7 +21,7 @@ public class ExampleRepository implements IExampleRepository {
             new Example(
                 rs.getInt("id"),
                 rs.getInt("expression_id"),
-                rs.getString("example")
+                rs.getString("sentence")
             ));
     }
 }

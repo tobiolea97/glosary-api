@@ -33,15 +33,28 @@ public class Tools {
     public static PersistResponse getBadRequest(Exception e, String descriptions) {
         return getPersistErrorResponse(e,descriptions,HttpStatus.BAD_REQUEST);
     }
-
     public static PersistResponse getUnauthorized(AppException e, String descriptions) {
         return getPersistErrorResponse(e,descriptions,HttpStatus.UNAUTHORIZED);
+    }
+
+    public static PersistResponse getBadRequest(String message, String descriptions) {
+        return getPersistErrorResponse(message,descriptions,HttpStatus.UNAUTHORIZED);
     }
 
     private static PersistResponse getPersistErrorResponse(AppException e, String descriptions, HttpStatus httpStatus) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(),e.getDescriptions());
         if(!descriptions.equals(""))
             errorResponse = new ErrorResponse(e.getMessage(),descriptions);
+        return new PersistResponse(
+                Results.ERROR,
+                errorResponse,
+                "",
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    private static PersistResponse getPersistErrorResponse(String message, String descriptions, HttpStatus httpStatus) {
+        ErrorResponse errorResponse = new ErrorResponse(message,descriptions);
         return new PersistResponse(
                 Results.ERROR,
                 errorResponse,
@@ -68,6 +81,15 @@ public class Tools {
                 "",
                 HttpStatus.BAD_REQUEST
         );
+    }
 
+    public static DataResponse getDataResponseError(String message, String descriptions) {
+        ErrorResponse errorResponse = new ErrorResponse(message, descriptions);
+        return new DataResponse(
+                Results.ERROR,
+                errorResponse,
+                "",
+                HttpStatus.BAD_REQUEST
+        );
     }
 }
