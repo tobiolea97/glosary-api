@@ -16,10 +16,30 @@ public class ExpressionsRepository implements IExpressionRepository {
             "LEFT JOIN user_expressions ue ON e.id = ue.expression_id " +
             " WHERE ue.expression_id IS NULL " +
             "   AND e.topic_type_id IN (SELECT topic_type_id FROM user_topics WHERE user_id = ?)";
+    private final String getExpressionByIdQuery = "SELECT * FROM expressions WHERE id = ?";
 
     private final JdbcTemplate jdbcTemplate;
     @Override
     public List<Expression> getNewExpressionsForUser(int userId, int amount) {
-        return null;
+        return jdbcTemplate.query(getNewExpressionsForUserQuery, new Object[]{userId}, (rs, rowNum) ->
+                new Expression(
+                        rs.getInt("id"),
+                        rs.getInt("topic_type_id"),
+                        rs.getString("title"),
+                        rs.getString("card_example"),
+                        rs.getString("definition")
+                ));
+    }
+
+    @Override
+    public Expression getExpressionById(int expressionId) {
+        return jdbcTemplate.queryForObject(getExpressionByIdQuery, new Object[]{expressionId}, (rs, rowNum) ->
+                new Expression(
+                        rs.getInt("id"),
+                        rs.getInt("topic_type_id"),
+                        rs.getString("title"),
+                        rs.getString("card_example"),
+                        rs.getString("definition")
+                ));
     }
 }
