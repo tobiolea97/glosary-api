@@ -1,98 +1,77 @@
-PRAGMA foreign_keys = ON;
+DROP TABLE IF EXISTS gaps;
+DROP TABLE IF EXISTS examples;
+DROP TABLE IF EXISTS user_expressions;
+DROP TABLE IF EXISTS user_topics;
+DROP TABLE IF EXISTS expressions;
+DROP TABLE IF EXISTS topics;
+DROP TABLE IF EXISTS topic_types;
+DROP TABLE IF EXISTS users;
 
-drop table if exists gaps;
-create table gaps (
-	id integer primary key autoincrement,
-	example_id integer,
-	order_number integer,
-	alternative_answer_1 varchar(255),
-	alternative_answer_2 varchar(255),
-	alternative_answer_3 varchar(255),
-	alternative_answer_4 varchar(255),
-	wrong_answer_1 varchar(255),
-	wrong_answer_2 varchar(255),
-	wrong_answer_3 varchar(255),
-	wrong_answer_4 varchar(255),
-
-	foreign key (example_id) references examples(id)
-
+CREATE TABLE topic_types (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255)
 );
 
-
-drop table if exists examples;
-create table examples (
-	id integer primary key autoincrement,
-	expression_id int,
-	sentence varchar(255),
-
-	foreign key (expression_id) references expressions(id)
+CREATE TABLE topics (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255),
+    topic_type_id INTEGER,
+    FOREIGN KEY (topic_type_id) REFERENCES topic_types(id)
 );
 
-drop table if exists user_expressions;
-create table user_expressions (
-	expression_id integer,
-	user_id integer,
-	score integer,
-	last_completed datetime,
-	learn boolean,
-
-	foreign key (expression_id) references expressions(id),
-	foreign key (user_id) references users(id),
-	unique(expression_id, user_id)
+CREATE TABLE expressions (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255),
+    card_example VARCHAR(255),
+    definition VARCHAR(255),
+    topic_type_id INTEGER,
+    FOREIGN KEY (topic_type_id) REFERENCES topics(id)
 );
 
-
-drop table if exists user_topics;
-create table user_topics (
-	user_id integer not null,
-	topic_type_id integer not null,
-
-	foreign key (user_id) references users(id),
-	foreign key (topic_type_id) references topics(id)
-	unique(user_id, topic_type_id)
+CREATE TABLE examples (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    expression_id INT,
+    sentence VARCHAR(255),
+    FOREIGN KEY (expression_id) REFERENCES expressions(id)
 );
 
-drop table if exists expressions;
-create table expressions (
-	id integer primary key autoincrement,
-	title varchar(255),
-	card_example varchar(255),
-	definition varchar(255),
-	topic_type_id integer,
-
-	foreign key (topic_type_id) references topics(id)
+CREATE TABLE gaps (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    example_id INTEGER,
+    order_number INTEGER,
+    alternative_answer_1 VARCHAR(255),
+    alternative_answer_2 VARCHAR(255),
+    alternative_answer_3 VARCHAR(255),
+    alternative_answer_4 VARCHAR(255),
+    wrong_answer_1 VARCHAR(255),
+    wrong_answer_2 VARCHAR(255),
+    wrong_answer_3 VARCHAR(255),
+    wrong_answer_4 VARCHAR(255),
+    FOREIGN KEY (example_id) REFERENCES examples(id)
 );
 
-drop table if exists topics;
-create table topics (
-	id integer primary key autoincrement,
-	name varchar(255),
-	topic_type_id integer,
-
-	foreign key (topic_type_id) references topic_types(id)
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
+    questions_per_quiz INTEGER NOT NULL
 );
 
-drop table if exists topic_types;
-create table topic_types (
-	id  integer primary key autoincrement,
-	name varchar(255)
+CREATE TABLE user_expressions (
+    expression_id INTEGER,
+    user_id INTEGER,
+    score INTEGER,
+    last_completed DATETIME,
+    learn BOOLEAN,
+    FOREIGN KEY (expression_id) REFERENCES expressions(id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    UNIQUE(expression_id, user_id)
 );
 
-
-
-
-
-drop table if exists users;
-create table users (
-	id integer primary key autoincrement,
-	first_name varchar(255),
-	last_name varchar(255),
-	questions_per_quiz integer not null
+CREATE TABLE user_topics (
+    user_id INTEGER NOT NULL,
+    topic_type_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (topic_type_id) REFERENCES topics(id),
+    UNIQUE(user_id, topic_type_id)
 );
-
-
-
-
-
-
-
