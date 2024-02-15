@@ -16,6 +16,7 @@ public class WelcomeController {
 
     @GetMapping
     public ResponseEntity<?> getWelcomeScreenData() {
+
         return ResponseEntity.ok(welcomeService.getWelcomeScreenData());
     }
 

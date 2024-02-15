@@ -13,6 +13,11 @@ public class WelcomeService implements IWelcomeService {
     IDataExternalService dataExternalService;
     @Override
     public Object getWelcomeScreenData() {
-        return dataExternalService.getTopics();
+        try {
+            return dataExternalService.getTopics();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
