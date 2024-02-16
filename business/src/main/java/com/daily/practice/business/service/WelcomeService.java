@@ -2,6 +2,7 @@ package com.daily.practice.business.service;
 
 import com.daily.practice.business.domain.Topic;
 import com.daily.practice.business.feign.contract.IDataExternalService;
+import com.daily.practice.business.feign.response.GetTopicsResponse;
 import com.daily.practice.business.service.contract.IWelcomeService;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -25,23 +26,16 @@ public class WelcomeService implements IWelcomeService {
     @Override
     public Object getWelcomeScreenData() {
         try {
-            LinkedHashMap responseMap = (LinkedHashMap) dataExternalService.getTopics().getBody();
-            List<LinkedHashMap<String, Object>> list = (List<LinkedHashMap<String, Object>>) responseMap.get("list");
+            ResponseEntity<LinkedHashMap> responseEntity = (ResponseEntity<LinkedHashMap>) dataExternalService.getTopics();
+            LinkedHashMap responseBody = responseEntity.getBody();
 
+            ObjectMapper mapper = new ObjectMapper();
+            String json = mapper.writeValueAsString(responseBody);
+            GetTopicsResponse topicsResponse = mapper.readValue(json, GetTopicsResponse.class);
 
-            ArrayList<Topic> topicsList = new ArrayList<>();
-            for (LinkedHashMap<String, Object> item : list) {
-                int id = (int) item.get("id");
-                String name = (String) item.get("name");
-                int topicTypeId = (int) item.get("topicTypeId");
-
-                // Create a new Topic object and add it to the list
-                Topic topic = new Topic(id, name, topicTypeId);
-                topicsList.add(topic);
-            }
-            InputStream inputStream = null;
-
+            return topicsResponse.getList();
         } catch (Exception e) {
+            // Handle specific exceptions here
             e.printStackTrace();
         }
         return null;
