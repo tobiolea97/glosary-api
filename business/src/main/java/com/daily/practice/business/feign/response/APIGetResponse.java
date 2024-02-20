@@ -10,12 +10,10 @@ import java.util.List;
 
 @Getter
 @Setter
-public class GetTopicsResponse implements IAPIResponse {
+public class APIGetResponse {
     @JsonProperty("result")
     private String result;
     @JsonProperty("errors")
     private String errors;
-    @JsonProperty("list")
-    private List<Topic> data;
 
 }
