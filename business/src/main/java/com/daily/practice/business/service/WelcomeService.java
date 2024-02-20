@@ -26,12 +26,11 @@ public class WelcomeService implements IWelcomeService {
     IDataExternalService dataExternalService;
     @Override
     public Object getWelcomeScreenData() {
-        ObjectMapper mapper = new ObjectMapper();
+        Tools<GetTopicsResponse> tools = new Tools<>();
         try {
-            LinkedHashMap responseBody = Tools.getArrayList((ResponseEntity<LinkedHashMap>) dataExternalService.getTopics(), GetTopicsResponse.class);
-            GetTopicsResponse topicsResponse = mapper.readValue(mapper.writeValueAsString(responseBody), GetTopicsResponse.class);
-
-            return topicsResponse.getList();
+            ResponseEntity<LinkedHashMap> rawResponse = (ResponseEntity<LinkedHashMap>) dataExternalService.getTopics();
+            GetTopicsResponse response = tools.getArrayList(rawResponse, GetTopicsResponse.class);
+            return response.getList();
         } catch (Exception e) {
             // Handle specific exceptions here
             e.printStackTrace();
