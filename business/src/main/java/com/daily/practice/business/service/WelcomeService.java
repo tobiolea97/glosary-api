@@ -4,6 +4,7 @@ import com.daily.practice.business.domain.Topic;
 import com.daily.practice.business.feign.contract.IDataExternalService;
 import com.daily.practice.business.feign.response.GetTopicsResponse;
 import com.daily.practice.business.service.contract.IWelcomeService;
+import com.daily.practice.business.tools.Tools;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,13 +26,10 @@ public class WelcomeService implements IWelcomeService {
     IDataExternalService dataExternalService;
     @Override
     public Object getWelcomeScreenData() {
+        ObjectMapper mapper = new ObjectMapper();
         try {
-            ResponseEntity<LinkedHashMap> responseEntity = (ResponseEntity<LinkedHashMap>) dataExternalService.getTopics();
-            LinkedHashMap responseBody = responseEntity.getBody();
-
-            ObjectMapper mapper = new ObjectMapper();
-            String json = mapper.writeValueAsString(responseBody);
-            GetTopicsResponse topicsResponse = mapper.readValue(json, GetTopicsResponse.class);
+            LinkedHashMap responseBody = Tools.getArrayList((ResponseEntity<LinkedHashMap>) dataExternalService.getTopics(), GetTopicsResponse.class);
+            GetTopicsResponse topicsResponse = mapper.readValue(mapper.writeValueAsString(responseBody), GetTopicsResponse.class);
 
             return topicsResponse.getList();
         } catch (Exception e) {
