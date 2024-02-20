@@ -1,4 +1,4 @@
-package com.daily.practice.business.feign.contract;
+package com.daily.practice.business.external.service.contract;
 
 import org.springframework.http.ResponseEntity;
 

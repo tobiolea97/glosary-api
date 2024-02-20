@@ -1,7 +1,7 @@
-package com.daily.practice.business.feign;
+package com.daily.practice.business.external.service;
 
-import com.daily.practice.business.feign.contract.IDataExternalService;
-import com.daily.practice.business.feign.contract.IDataService;
+import com.daily.practice.business.external.service.contract.IDataExternalService;
+import com.daily.practice.business.external.service.contract.IDataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
