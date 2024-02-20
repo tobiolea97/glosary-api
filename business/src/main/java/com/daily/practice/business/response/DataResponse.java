@@ -1,4 +1,4 @@
-package com.daily.practice.data.response;
+package com.daily.practice.business.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;

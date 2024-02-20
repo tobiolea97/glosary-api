@@ -1,5 +1,6 @@
 package com.daily.practice.business.controller;
 
+import com.daily.practice.business.response.DataResponse;
 import com.daily.practice.business.service.contract.IWelcomeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,8 @@ public class WelcomeController {
 
     @GetMapping
     public ResponseEntity<?> getWelcomeScreenData() {
-
-        return ResponseEntity.ok(welcomeService.getWelcomeScreenData());
+        DataResponse response = welcomeService.getWelcomeScreenData();
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
 

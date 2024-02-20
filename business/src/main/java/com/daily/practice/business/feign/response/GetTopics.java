@@ -8,9 +8,14 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Getter
+
 @Setter
 public class GetTopics extends APIGetResponse implements IAPIResponse {
-    @JsonProperty("list")
-    private List<Topic> data;
+    @JsonProperty("data")
+    private List<Topic> topics;
+
+    @Override
+    public List<?> getData() {
+        return topics;
+    }
 }

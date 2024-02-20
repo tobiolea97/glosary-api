@@ -1,4 +1,4 @@
-package com.daily.practice.data.response;
+package com.daily.practice.business.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -11,10 +11,10 @@ import org.springframework.http.HttpStatus;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DataResponse {
+public class PersistResponse {
     private String result;
     private Object errors;
-    private Object data;
+    private Object persistedObject;
     @JsonIgnore
     private HttpStatus status;
 }

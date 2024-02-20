@@ -9,9 +9,12 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Getter
-@Setter
 public class GetTopicTypes extends APIGetResponse implements IAPIResponse {
-    @JsonProperty("list")
-    private List<TopicType> data;
+    @JsonProperty("data")
+    private List<TopicType> topicTypes;
+
+    @Override
+    public List<?> getData() {
+        return topicTypes;
+    }
 }
