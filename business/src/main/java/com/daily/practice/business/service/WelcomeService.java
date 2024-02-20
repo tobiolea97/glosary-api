@@ -4,18 +4,12 @@ import com.daily.practice.business.domain.Topic;
 import com.daily.practice.business.feign.contract.IDataExternalService;
 import com.daily.practice.business.feign.response.GetTopicsResponse;
 import com.daily.practice.business.service.contract.IWelcomeService;
-import com.daily.practice.business.tools.Tools;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.daily.practice.business.tools.ExternalServiceResponseParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -26,11 +20,12 @@ public class WelcomeService implements IWelcomeService {
     IDataExternalService dataExternalService;
     @Override
     public Object getWelcomeScreenData() {
-        Tools<GetTopicsResponse> tools = new Tools<>();
+        ExternalServiceResponseParser<GetTopicsResponse> topicsResponseParser = new ExternalServiceResponseParser<>();
+        ExternalServiceResponseParser<GetTopicsResponse> topicTypesResponseParser = new ExternalServiceResponseParser<>();
         try {
-            ResponseEntity<LinkedHashMap> rawResponse = (ResponseEntity<LinkedHashMap>) dataExternalService.getTopics();
-            GetTopicsResponse response = tools.getArrayList(rawResponse, GetTopicsResponse.class);
-            return response.getList();
+            List<Topic> topics = (List<Topic>) topicsResponseParser.getData(dataExternalService.getTopics(), GetTopicsResponse.class);
+            return topics;
+
         } catch (Exception e) {
             // Handle specific exceptions here
             e.printStackTrace();
