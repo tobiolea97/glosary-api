@@ -7,7 +7,7 @@ import com.daily.practice.business.external.service.response.GetTopicTypesRespon
 import com.daily.practice.business.external.service.response.GetTopicsResponse;
 import com.daily.practice.business.response.DataResponse;
 import com.daily.practice.business.service.contract.IWelcomeService;
-import com.daily.practice.business.external.service.ResponseParser;
+import com.daily.practice.business.external.service.response.GetResponseParser;
 import com.daily.practice.business.utils.Results;
 import com.daily.practice.business.utils.Tools;
 import com.daily.practice.business.utils.errors.ErrorCodes;
@@ -27,8 +27,8 @@ public class WelcomeService implements IWelcomeService {
     @Override
     public DataResponse getWelcomeScreenData() {
         DataResponse dataResponse = new DataResponse();
-        ResponseParser<GetTopicsResponse> topicsResponseParser = new ResponseParser<>();
-        ResponseParser<GetTopicTypesResponse> topicTypesResponseParser = new ResponseParser<>();
+        GetResponseParser<GetTopicsResponse> topicsResponseParser = new GetResponseParser<>();
+        GetResponseParser<GetTopicTypesResponse> topicTypesResponseParser = new GetResponseParser<>();
         try {
             List<Topic> topics = (List<Topic>) topicsResponseParser.getData(dataExternalService.getTopics(), GetTopicsResponse.class);
             List<TopicType> topicTypes = (List<TopicType>) topicTypesResponseParser.getData(dataExternalService.getTopicTypes(), GetTopicTypesResponse.class);

@@ -1,4 +1,4 @@
-package com.daily.practice.business.external.service;
+package com.daily.practice.business.external.service.response;
 
 import com.daily.practice.business.external.service.response.contract.IAPIGetResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class ResponseParser<T extends IAPIGetResponse> {
+public class GetResponseParser<T extends IAPIGetResponse> {
     ObjectMapper mapper = new ObjectMapper();
     public List<?> getData(ResponseEntity<?> rawResponse, Class<T> clazz) {
         ResponseEntity<LinkedHashMap> response = (ResponseEntity<LinkedHashMap>) rawResponse;
