@@ -37,6 +37,7 @@ public class UserExpressionService implements IUserExpressionService {
             persistResponse = Tools.getBadRequest(ErrorCodes.SQL_ERROR, e.getCause().getMessage());
         } catch (Exception e) {
             persistResponse = Tools.getBadRequest(ErrorCodes.COULD_NOT_SAVE_RECORD, ErrorDescriptions.COULD_NOT_SAVE_RECORD);
+            persistResponse = Tools.getBadRequest(ErrorCodes.COULD_NOT_SAVE_RECORD, e.getMessage());
         } finally {
             return persistResponse;
         }

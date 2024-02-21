@@ -17,6 +17,7 @@ insert into user_topics(user_id, topic_type_id) VALUES (1, 1);
 insert into user_topics(user_id, topic_type_id) VALUES (1, 2);
 insert into user_topics(user_id, topic_type_id) VALUES (1, 3);
 insert into user_topics(user_id, topic_type_id) VALUES (1, 4);
+insert into user_topics(user_id, topic_type_id) VALUES (1, 5);
 insert into user_topics(user_id, topic_type_id) VALUES (1, 9);
 
 -- Phrasal verb: 'Run out'

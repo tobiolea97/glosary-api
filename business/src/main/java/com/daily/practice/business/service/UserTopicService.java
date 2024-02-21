@@ -24,7 +24,6 @@ public class UserTopicService implements IUserTopicService {
     private final IDataExternalService dataExternalService;
     @Override
     public PersistResponse assignTopicToUser(int userId, int topicId) {
-        ObjectMapper mapper = new ObjectMapper();
         PersistResponse persistResponse = new PersistResponse();
         CreateUserTopicRequest userTopicRequest = new CreateUserTopicRequest(userId, topicId);
         try {

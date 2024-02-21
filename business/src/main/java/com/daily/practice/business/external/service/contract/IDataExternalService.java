@@ -1,9 +1,11 @@
 package com.daily.practice.business.external.service.contract;
 
 import com.daily.practice.business.external.service.request.CreateUserTopicRequest;
+import com.daily.practice.business.external.service.request.PersistUserExpressionRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -13,7 +15,12 @@ public interface IDataExternalService {
     ResponseEntity<?> getTopics();
     @GetMapping("topics/types")
     ResponseEntity<?> getTopicTypes();
-
     @PostMapping("/user-topic")
     ResponseEntity<?> assignTopicToUser(@RequestBody CreateUserTopicRequest request);
+    @GetMapping("/{expressionId}")
+    ResponseEntity<?> getExpressionById(@PathVariable int expressionId);
+    @GetMapping("expression/new/{userId}")
+    ResponseEntity<?> getNewExpressions(@PathVariable int userId);
+    @PostMapping("user-expression")
+    ResponseEntity<?> createUserExpression(@RequestBody PersistUserExpressionRequest request);
 }
