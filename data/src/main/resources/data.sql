@@ -174,19 +174,19 @@ insert into examples(expression_id, sentence) values (20, 'The test was {1} beca
 insert into gaps(example_id, order_number, alternative_answer_1, wrong_answer_1, wrong_answer_2, wrong_answer_3) values (20, 1, 'a piece of cake', 'piece of cake', 'cake piece', 'cake of piece');
 
 
-INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (1,1,0,NULL, TRUE);
-INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (2,1,0,NULL, FALSE);
-INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (3,1,0,NULL, FALSE);
-INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (4,1,0,NULL, FALSE);
-INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (5,1,0,NULL, FALSE);
-INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (6,1,0,NULL, FALSE);
-INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (7,1,0,NULL, FALSE);
-INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (8,1,0,NULL, FALSE);
-INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (9,1,0,NULL, FALSE);
-INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (10,1,0,NULL, FALSE);
-INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (11,1,0,NULL, FALSE);
-INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (12,1,0,NULL, FALSE);
-INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (13,1,0,NULL, FALSE);
-INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (14,1,0,NULL, FALSE);
-INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (15,1,0,'20240221 12:30', FALSE);
+INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (1,1,1,'20240218', TRUE);
+INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (2,1,2,'20240218', TRUE);
+INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (3,1,3,'20240218', TRUE);
+INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (4,1,0,NULL, TRUE);
+INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (5,1,5,'20240215', TRUE);
+INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (6,1,1,'20240215', TRUE);
+INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (7,1,2,'20240215', TRUE);
+INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (8,1,3,'20240212', TRUE);
+INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (9,1,0,NULL, TRUE);
+INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (10,1,5,'20240212', TRUE);
+INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (11,1,1,'20240220', TRUE);
+INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (12,1,2,'20240220', TRUE);
+INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (13,1,0,'20240220', TRUE);
+INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (14,1,4,'20240220', TRUE);
+INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (15,1,5,'20240221', TRUE);
 
