@@ -1,11 +1,12 @@
 package com.daily.practice.business.service;
 
 import com.daily.practice.business.domain.Expression;
+import com.daily.practice.business.domain.Stat;
+import com.daily.practice.business.domain.Topic;
+import com.daily.practice.business.domain.UserExpression;
 import com.daily.practice.business.external.service.contract.IDataExternalService;
 import com.daily.practice.business.external.service.request.PersistUserExpressionRequest;
-import com.daily.practice.business.external.service.response.GetExpressionsResponse;
-import com.daily.practice.business.external.service.response.GetResponseParser;
-import com.daily.practice.business.external.service.response.PersistResponseParser;
+import com.daily.practice.business.external.service.response.*;
 import com.daily.practice.business.response.DataResponse;
 import com.daily.practice.business.response.PersistResponse;
 import com.daily.practice.business.service.contract.IUserExpressionService;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -36,6 +38,36 @@ public class UserExpressionService implements IUserExpressionService {
         } finally {
             return dataResponse;
         }
+    }
+
+    @Override
+    public DataResponse getUserExpressions(int userId) {
+        DataResponse response = new DataResponse();
+        GetResponseParser<GetUserExpressionsResponse> userExpressionsResponseParser = new GetResponseParser<>();
+        GetResponseParser<GetTopicsResponse> topicsResponseParser = new GetResponseParser<>();
+        try {
+            List<UserExpression> userExpressions = (List<UserExpression>) userExpressionsResponseParser.getData(dataExternalService.getUserExpressionsByUserId(userId), GetUserExpressionsResponse.class);
+            List<Topic> topics = (List<Topic>) topicsResponseParser.getData(dataExternalService.getTopicsByUserId(userId), GetTopicsResponse.class);
+
+            List<Stat> stats = new ArrayList<>();
+
+            for(Topic topic : topics) {
+                Stat stat = new Stat();
+                stat.setTopicName(topic.getName());
+                stat.setLearning(5);
+                stat.setLearnt(2);
+                stat.setToLearn(10);
+                stat.setToRefresh(3);
+                stats.add(stat);
+            }
+
+            response = new DataResponse(Results.OK,"",userExpressions,HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            response = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
+        } finally {
+            return response;
+        }
+
     }
 
     @Override

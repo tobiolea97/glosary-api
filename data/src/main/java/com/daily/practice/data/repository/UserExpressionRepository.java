@@ -47,13 +47,13 @@ public class UserExpressionRepository implements IUserExpressionRepository {
     @Override
     public List<UserExpression> getByUserId(int userId) {
         return jdbcTemplate.query(getUserExpressionQuery, new Object[]{userId}, (rs, rowNum) ->
-                new UserExpression(
-                        rs.getInt("expression_id"),
-                        rs.getInt("user_id"),
-                        rs.getInt("score"),
-                        null,
-                        rs.getBoolean("learn")
-                ));
+            new UserExpression(
+                    rs.getInt("expression_id"),
+                    rs.getInt("user_id"),
+                    rs.getInt("score"),
+                    (rs.getDate("last_completed") == null ? null : rs.getDate("last_completed").toLocalDate()),
+                    rs.getBoolean("learn")
+            ));
     }
 
 

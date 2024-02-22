@@ -6,5 +6,6 @@ import com.daily.practice.business.response.PersistResponse;
 
 public interface IUserExpressionService {
     DataResponse getNewExpressionsForUser(int userId);
+    DataResponse getUserExpressions(int userId);
     PersistResponse create(PersistUserExpressionRequest request);
 }

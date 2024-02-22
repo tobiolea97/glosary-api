@@ -23,4 +23,9 @@ public interface IDataExternalService {
     ResponseEntity<?> getNewExpressions(@PathVariable int userId);
     @PostMapping("user-expression")
     ResponseEntity<?> createUserExpression(@RequestBody PersistUserExpressionRequest request);
+
+    @GetMapping("user-expression/{userId}")
+    ResponseEntity<?> getUserExpressionsByUserId(@PathVariable int userId);
+    @GetMapping("topics/{userId}")
+    ResponseEntity<?> getTopicsByUserId(@PathVariable int userId);
 }

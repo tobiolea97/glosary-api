@@ -5,4 +5,5 @@ import com.daily.practice.data.response.DataResponse;
 public interface ITopicsService {
     DataResponse getTopics();
     DataResponse getTopicTypes();
+    DataResponse getTopicsByUserId(int userId);
 }

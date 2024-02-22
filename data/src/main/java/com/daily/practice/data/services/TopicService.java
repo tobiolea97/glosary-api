@@ -49,4 +49,18 @@ public class TopicService implements ITopicsService {
             return dataResponse;
         }
     }
+
+    @Override
+    public DataResponse getTopicsByUserId(int userId) {
+        List<Topic> topics;
+        DataResponse dataResponse = new DataResponse();
+        try {
+            topics = topicRepository.getAllTopicsByUser(userId);
+            dataResponse = new DataResponse(Results.OK, "", topics, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            dataResponse = Tools.getDataResponseError(e, "");
+        } finally {
+            return dataResponse;
+        }
+    }
 }

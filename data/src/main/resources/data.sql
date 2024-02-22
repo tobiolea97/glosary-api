@@ -17,8 +17,8 @@ insert into user_topics(user_id, topic_type_id) VALUES (1, 1);
 insert into user_topics(user_id, topic_type_id) VALUES (1, 2);
 insert into user_topics(user_id, topic_type_id) VALUES (1, 3);
 insert into user_topics(user_id, topic_type_id) VALUES (1, 4);
-insert into user_topics(user_id, topic_type_id) VALUES (1, 5);
-insert into user_topics(user_id, topic_type_id) VALUES (1, 9);
+--insert into user_topics(user_id, topic_type_id) VALUES (1, 5);
+--insert into user_topics(user_id, topic_type_id) VALUES (1, 9);
 
 -- Phrasal verb: 'Run out'
 insert into expressions(title, card_example, definition, topic_type_id) values ('Run out', 'He *ran out* of gas in the middle of nowhere', 'All of it has been used or it is completely finished', 1);
@@ -188,4 +188,5 @@ INSERT INTO user_expressions (expression_id, user_id, score, last_completed, lea
 INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (12,1,0,NULL, FALSE);
 INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (13,1,0,NULL, FALSE);
 INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (14,1,0,NULL, FALSE);
+INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (15,1,0,'20240221 12:30', FALSE);
 

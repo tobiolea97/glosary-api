@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface ITopicRepository {
     List<Topic> getAllTopics();
+    List<Topic> getAllTopicsByUser(int userId);
     List<TopicType> getAllTopicTypes();
 }

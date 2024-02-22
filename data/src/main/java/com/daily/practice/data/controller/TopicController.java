@@ -4,10 +4,7 @@ import com.daily.practice.data.response.DataResponse;
 import com.daily.practice.data.services.contract.ITopicsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("topics")
@@ -28,4 +25,12 @@ public class TopicController {
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
     }
 
+
+    @GetMapping("{userId}")
+    public ResponseEntity<?> getTopicsByUserId(@PathVariable int userId) {
+        {
+            DataResponse dataResponse = topicsService.getTopicsByUserId(userId);
+            return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
+        }
+    }
 }
