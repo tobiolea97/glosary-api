@@ -23,4 +23,10 @@ public class ExpressionController {
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
     }
 
+    @GetMapping("/user/{userId}")
+    private ResponseEntity<?> getExpressionByUserId(@PathVariable int userId) {
+        DataResponse dataResponse = expressionService.getExpressionsByUserId(userId);
+        return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
+    }
+
 }

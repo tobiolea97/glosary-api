@@ -47,4 +47,17 @@ public class ExpressionService implements IExpressionService {
             return dataResponse;
         }
     }
+
+    @Override
+    public DataResponse getExpressionsByUserId(int userId) {
+        DataResponse dataResponse = new DataResponse();
+        try {
+            List<Expression> expressions = expressionRepository.getExpressionsByUserId(userId);
+            dataResponse = new DataResponse(Results.OK, "", expressions, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            dataResponse = Tools.getDataResponseError(e, "");
+        } finally {
+            return dataResponse;
+        }
+    }
 }

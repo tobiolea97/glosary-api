@@ -7,4 +7,6 @@ import java.util.List;
 public interface IExpressionRepository {
     List<Expression> getNewExpressionsForUser(int userId, int amount);
     Expression getExpressionById(int expressionId);
+    List<Expression> getExpressionsByUserId(int userId);
+
 }

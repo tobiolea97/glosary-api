@@ -45,23 +45,39 @@ public class UserExpressionService implements IUserExpressionService {
         DataResponse response = new DataResponse();
         GetResponseParser<GetUserExpressionsResponse> userExpressionsResponseParser = new GetResponseParser<>();
         GetResponseParser<GetTopicsResponse> topicsResponseParser = new GetResponseParser<>();
+        GetResponseParser<GetExpressionsResponse> expressionResponseParser = new GetResponseParser<>();
         try {
             List<UserExpression> userExpressions = (List<UserExpression>) userExpressionsResponseParser.getData(dataExternalService.getUserExpressionsByUserId(userId), GetUserExpressionsResponse.class);
             List<Topic> topics = (List<Topic>) topicsResponseParser.getData(dataExternalService.getTopicsByUserId(userId), GetTopicsResponse.class);
-
+            List<Expression> expressions = (List<Expression>) expressionResponseParser.getData(dataExternalService.getExpressionsByUserId(userId), GetExpressionsResponse.class);
             List<Stat> stats = new ArrayList<>();
 
             for(Topic topic : topics) {
+                int learning = 0, learnt = 0, toLearn = 0, toRefresh = 0;
                 Stat stat = new Stat();
                 stat.setTopicName(topic.getName());
-                stat.setLearning(5);
-                stat.setLearnt(2);
-                stat.setToLearn(10);
-                stat.setToRefresh(3);
+                for(UserExpression userExpression : userExpressions) {
+                    Expression expression = expressions.stream().filter(e -> e.getId() == userExpression.getExpressionId()).findFirst().get();
+                    if(topic.getId() == expression.getExpressionTypeId()) {
+                        if (userExpression.getScore() >= 1 && userExpression.getScore() <= 4)
+                            learning++;
+                        if (userExpression.getScore() == 5)
+                            learnt++;
+                        if(userExpression.getScore() == 0)
+                            if(userExpression.getLastCompleted() == null)
+                                toLearn++;
+                            else
+                                learning++;
+                    }
+                }
+                stat.setLearning(learning);
+                stat.setLearnt(learnt);
+                stat.setToLearn(toLearn);
+                stat.setToRefresh(toRefresh);
                 stats.add(stat);
             }
 
-            response = new DataResponse(Results.OK,"",userExpressions,HttpStatus.ACCEPTED);
+            response = new DataResponse(Results.OK,"",stats,HttpStatus.ACCEPTED);
         } catch (Exception e) {
             response = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
         } finally {

@@ -28,4 +28,7 @@ public interface IDataExternalService {
     ResponseEntity<?> getUserExpressionsByUserId(@PathVariable int userId);
     @GetMapping("topics/{userId}")
     ResponseEntity<?> getTopicsByUserId(@PathVariable int userId);
+
+    @GetMapping("expression/user/{userId}")
+    ResponseEntity<?> getExpressionsByUserId(@PathVariable int userId);
 }
