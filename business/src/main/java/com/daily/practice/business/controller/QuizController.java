@@ -1,7 +1,7 @@
-package com.daily.practice.data.controller;
+package com.daily.practice.business.controller;
 
-import com.daily.practice.data.response.DataResponse;
-import com.daily.practice.data.services.contract.IQuizService;
+import com.daily.practice.business.response.DataResponse;
+import com.daily.practice.business.service.contract.IQuizService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class QuizController {
     private final IQuizService quizService;
+
     @GetMapping("/user/{userId}/topic/{topicId}")
-    public ResponseEntity<?> getQuizItemsForUserAndTopic(@PathVariable("userId") int userId, @PathVariable("topicId") int topicId) {
-        DataResponse response = quizService.getQuizItemsForUserAndTopic(userId, topicId);
+    public ResponseEntity<?> getQuiz(@PathVariable("userId") int userId, @PathVariable("topicId") int topicId) {
+        DataResponse response = quizService.getQuiz(userId, topicId);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
+
 }
