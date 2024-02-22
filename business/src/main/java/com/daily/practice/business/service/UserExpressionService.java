@@ -53,27 +53,7 @@ public class UserExpressionService implements IUserExpressionService {
             List<Stat> stats = new ArrayList<>();
 
             for(Topic topic : topics) {
-                int learning = 0, learnt = 0, toLearn = 0, toRefresh = 0;
-                Stat stat = new Stat();
-                stat.setTopicName(topic.getName());
-                for(UserExpression userExpression : userExpressions) {
-                    Expression expression = expressions.stream().filter(e -> e.getId() == userExpression.getExpressionId()).findFirst().get();
-                    if(topic.getId() == expression.getExpressionTypeId()) {
-                        if (userExpression.getScore() >= 1 && userExpression.getScore() <= 4)
-                            learning++;
-                        if (userExpression.getScore() == 5)
-                            learnt++;
-                        if(userExpression.getScore() == 0)
-                            if(userExpression.getLastCompleted() == null)
-                                toLearn++;
-                            else
-                                learning++;
-                    }
-                }
-                stat.setLearning(learning);
-                stat.setLearnt(learnt);
-                stat.setToLearn(toLearn);
-                stat.setToRefresh(toRefresh);
+                Stat stat = new Stat(topic.getId(), topic.getName(), userExpressions,expressions);
                 stats.add(stat);
             }
 
@@ -83,7 +63,6 @@ public class UserExpressionService implements IUserExpressionService {
         } finally {
             return response;
         }
-
     }
 
     @Override
