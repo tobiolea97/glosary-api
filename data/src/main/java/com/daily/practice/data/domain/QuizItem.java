@@ -17,5 +17,6 @@ public class QuizItem {
     private String wrongAnswer1;
     private String wrongAnswer2;
     private String wrongAnswer3;
-    private String correctAnswer;
+    private String wrongAnswer4;
 }
+
