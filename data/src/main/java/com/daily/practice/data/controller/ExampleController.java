@@ -20,11 +20,12 @@ import java.util.List;
 public class ExampleController {
     private final IExampleService exampleService;
     @GetMapping("/expression/{expressionId}")
-    public ResponseEntity<?> getExample(@PathVariable int expressionId) {
-        DataResponse response = exampleService.getExpressionExamples(expressionId);
+    public ResponseEntity<DataResponse2<List<Example>>> getExample(@PathVariable int expressionId) {
+        DataResponse2<List<Example>> response = exampleService.getExpressionExamples(expressionId);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
+    /*
     @GetMapping("/expression2/{expressionId}")
     public ResponseEntity<DataResponse2<List<Example>>> getExample2(@PathVariable int expressionId) {
         DataResponse2<List<Example>> response = exampleService.getExpressionExamples2(expressionId);
@@ -36,5 +37,6 @@ public class ExampleController {
         DataResponse2<Example> response = exampleService.getExpressionExamples3(expressionId);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
+    */
 
 }

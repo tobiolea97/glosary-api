@@ -1,5 +1,6 @@
 package com.daily.practice.data.utils;
 
+import com.daily.practice.data.response.DataResponse2;
 import com.daily.practice.data.utils.errors.AppException;
 import com.daily.practice.data.utils.errors.ErrorCodes;
 import org.springframework.http.HttpStatus;
@@ -92,5 +93,16 @@ public class Tools {
                 HttpStatus.BAD_REQUEST
         );
     }
+
+    public static DataResponse2 getDataResponseError2(String code, String message) {
+        ErrorResponse errorResponse = new ErrorResponse(message, message);
+        return new DataResponse2(
+                Results.ERROR,
+                errorResponse,
+                null,
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
 
 }

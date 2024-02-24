@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public class DataResponse2<T> {
     private String result;
-    private String error;
+    private ErrorResponse error;
     private T data;
     @JsonIgnore
     private HttpStatus status;

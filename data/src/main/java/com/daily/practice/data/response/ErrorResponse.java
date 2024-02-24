@@ -25,6 +25,7 @@ public class ErrorResponse {
         messageList.add(descriptions);
         this.description = messageList;
     }
+
     private final String code;
     private final List<String> description;
 
