@@ -1,7 +1,9 @@
 package com.daily.practice.business.external.service.contract;
 
+import com.daily.practice.business.domain.Expression;
 import com.daily.practice.business.domain.Topic;
 import com.daily.practice.business.domain.TopicType;
+import com.daily.practice.business.domain.UserExpression;
 import com.daily.practice.business.external.service.request.CreateUserTopicRequest;
 import com.daily.practice.business.external.service.request.PersistUserExpressionRequest;
 import com.daily.practice.business.response.DataResponse;
@@ -25,17 +27,17 @@ public interface IDataExternalService {
     @GetMapping("/{expressionId}")
     ResponseEntity<?> getExpressionById(@PathVariable int expressionId);
     @GetMapping("expression/new/{userId}")
-    ResponseEntity<?> getNewExpressions(@PathVariable int userId);
+    ResponseEntity<DataResponse<List<Expression>>> getNewExpressions(@PathVariable int userId);
     @PostMapping("user-expression")
     ResponseEntity<?> createUserExpression(@RequestBody PersistUserExpressionRequest request);
 
     @GetMapping("user-expression/{userId}")
-    ResponseEntity<?> getUserExpressionsByUserId(@PathVariable int userId);
+    ResponseEntity<DataResponse<List<UserExpression>>> getUserExpressionsByUserId(@PathVariable int userId);
     @GetMapping("topics/{userId}")
-    ResponseEntity<?> getTopicsByUserId(@PathVariable int userId);
+    ResponseEntity<DataResponse<List<Topic>>> getTopicsByUserId(@PathVariable int userId);
 
     @GetMapping("expression/user/{userId}")
-    ResponseEntity<?> getExpressionsByUserId(@PathVariable int userId);
+    ResponseEntity<DataResponse<List<Expression>>> getExpressionsByUserId(@PathVariable int userId);
 
     @GetMapping("quiz/user/{userId}/topic/{topicId}")
     ResponseEntity<?> getQuizItemsForUserAndTopic(@PathVariable("userId") int userId, @PathVariable("topicId") int topicId);

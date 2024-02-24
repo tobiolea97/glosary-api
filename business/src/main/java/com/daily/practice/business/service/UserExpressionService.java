@@ -7,6 +7,7 @@ import com.daily.practice.business.domain.UserExpression;
 import com.daily.practice.business.external.service.contract.IDataExternalService;
 import com.daily.practice.business.external.service.request.PersistUserExpressionRequest;
 import com.daily.practice.business.external.service.response.*;
+import com.daily.practice.business.response.DataResponse;
 import com.daily.practice.business.response.DataResponse_old;
 import com.daily.practice.business.response.PersistResponse_old;
 import com.daily.practice.business.service.contract.IUserExpressionService;
@@ -27,42 +28,39 @@ import java.util.List;
 public class UserExpressionService implements IUserExpressionService {
     private final IDataExternalService dataExternalService;
     @Override
-    public DataResponse_old getNewExpressionsForUser(int userId) {
-        DataResponse_old dataResponse = new DataResponse_old();
-        GetResponseParser<GetExpressionsResponse> expressionGetResponseParser = new GetResponseParser<>();
+    public DataResponse<List<Expression>> getNewExpressionsForUser(int userId) {
+        DataResponse<List<Expression>> response;
         try {
-            List<Expression> expressions = (List<Expression>) expressionGetResponseParser.getData(dataExternalService.getNewExpressions(userId), GetExpressionsResponse.class);
-            dataResponse = new DataResponse_old(Results.OK, "", expressions, HttpStatus.ACCEPTED);
+            DataResponse<List<Expression>> getNewExpressionsResponse = dataExternalService.getNewExpressions(userId).getBody();
+            List<Expression> expressions;
+            if (getNewExpressionsResponse != null) {
+                expressions = getNewExpressionsResponse.getData();
+            } else throw new Exception();
+
+            response = new DataResponse<>(Results.OK, null, expressions, HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            dataResponse = Tools.getDataResponseError2(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
-        } finally {
-            return dataResponse;
+            response = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
         }
+        return response;
     }
 
     @Override
-    public DataResponse_old getUserExpressions(int userId) {
-        DataResponse_old response = new DataResponse_old();
-        GetResponseParser<GetUserExpressionsResponse> userExpressionsResponseParser = new GetResponseParser<>();
-        GetResponseParser<GetTopicsResponse> topicsResponseParser = new GetResponseParser<>();
-        GetResponseParser<GetExpressionsResponse> expressionResponseParser = new GetResponseParser<>();
+    public DataResponse<List<Stat>> getUserExpressions(int userId) {
+        DataResponse<List<Stat>> response;
         try {
-            List<UserExpression> userExpressions = (List<UserExpression>) userExpressionsResponseParser.getData(dataExternalService.getUserExpressionsByUserId(userId), GetUserExpressionsResponse.class);
-            List<Topic> topics = (List<Topic>) topicsResponseParser.getData(dataExternalService.getTopicsByUserId(userId), GetTopicsResponse.class);
-            List<Expression> expressions = (List<Expression>) expressionResponseParser.getData(dataExternalService.getExpressionsByUserId(userId), GetExpressionsResponse.class);
+            List<UserExpression> userExpressions = dataExternalService.getUserExpressionsByUserId(userId).getBody().getData();
+            List<Topic> topics = dataExternalService.getTopicsByUserId(userId).getBody().getData();
+            List<Expression> expressions = dataExternalService.getExpressionsByUserId(userId).getBody().getData();
             List<Stat> stats = new ArrayList<>();
-
             for(Topic topic : topics) {
                 Stat stat = new Stat(topic.getId(), topic.getName(), userExpressions,expressions);
                 stats.add(stat);
             }
-
-            response = new DataResponse_old(Results.OK,"",stats,HttpStatus.ACCEPTED);
+            response = new DataResponse<>(Results.OK,null,stats,HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            response = Tools.getDataResponseError2(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
-        } finally {
-            return response;
+            response = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
         }
+        return response;
     }
 
     @Override
