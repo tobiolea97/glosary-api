@@ -21,7 +21,7 @@ public class WelcomeController {
 
     @GetMapping
     public ResponseEntity<DataResponse<List<TopicType>>> getWelcomeScreenData() {
-        DataResponse<List<TopicType>> response = welcomeService.getWelcomeScreenData2();
+        DataResponse<List<TopicType>> response = welcomeService.getWelcomeScreenData();
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
