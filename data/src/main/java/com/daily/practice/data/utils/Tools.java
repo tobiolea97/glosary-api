@@ -1,15 +1,12 @@
 package com.daily.practice.data.utils;
 
-import com.daily.practice.data.response.DataResponse2;
+import com.daily.practice.data.response.*;
 import com.daily.practice.data.utils.errors.AppException;
 import com.daily.practice.data.utils.errors.ErrorCodes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import com.daily.practice.data.response.DataResponse;
-import com.daily.practice.data.response.ErrorResponse;
-import com.daily.practice.data.response.PersistResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -104,5 +101,22 @@ public class Tools {
         );
     }
 
+    public static <T> PersistResponse2<T> getBadRequest2(String code, String description) {
+        return getPersistErrorResponse2(code, description, HttpStatus.BAD_REQUEST);
+    }
+
+    public static <T> PersistResponse2<T> getBadGateway2(String code, String description) {
+        return getPersistErrorResponse2(code, description, HttpStatus.BAD_GATEWAY);
+    }
+
+    private static <T> PersistResponse2<T> getPersistErrorResponse2(String message, String descriptions, HttpStatus httpStatus) {
+        ErrorResponse errorResponse = new ErrorResponse(message,descriptions);
+        return new PersistResponse2<T>(
+                Results.ERROR,
+                errorResponse,
+                null,
+                httpStatus
+        );
+    }
 
 }

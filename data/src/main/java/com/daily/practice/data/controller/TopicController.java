@@ -33,9 +33,7 @@ public class TopicController {
 
     @GetMapping("{userId}")
     public ResponseEntity<DataResponse2<List<Topic>>> getTopicsByUserId(@PathVariable int userId) {
-        {
-            DataResponse2<List<Topic>> dataResponse = topicsService.getTopicsByUserId(userId);
-            return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
-        }
+        DataResponse2<List<Topic>> dataResponse = topicsService.getTopicsByUserId(userId);
+        return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
     }
 }
