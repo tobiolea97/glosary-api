@@ -9,7 +9,7 @@ import com.daily.practice.business.external.service.response.GetExpressionsRespo
 import com.daily.practice.business.external.service.response.GetResponseParser;
 import com.daily.practice.business.external.service.response.GetTopicsResponse;
 import com.daily.practice.business.external.service.response.GetUserExpressionsResponse;
-import com.daily.practice.business.response.DataResponse;
+import com.daily.practice.business.response.DataResponse_old;
 import com.daily.practice.business.service.contract.IHomeService;
 import com.daily.practice.business.utils.Results;
 import com.daily.practice.business.utils.Tools;
@@ -27,8 +27,8 @@ import java.util.List;
 public class HomeService implements IHomeService {
     private final IDataExternalService externalService;
     @Override
-    public DataResponse getStats(int userId) {
-        DataResponse response = new DataResponse();
+    public DataResponse_old getStats(int userId) {
+        DataResponse_old response = new DataResponse_old();
         GetResponseParser<GetUserExpressionsResponse> userExpressionsResponseParser = new GetResponseParser<>();
         GetResponseParser<GetTopicsResponse> topicsResponseParser = new GetResponseParser<>();
         GetResponseParser<GetExpressionsResponse> expressionResponseParser = new GetResponseParser<>();
@@ -43,9 +43,9 @@ public class HomeService implements IHomeService {
                 stats.add(stat);
             }
 
-            response = new DataResponse(Results.OK,"",stats, HttpStatus.ACCEPTED);
+            response = new DataResponse_old(Results.OK,"",stats, HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            response = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
+            response = Tools.getDataResponseError2(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
         } finally {
             return response;
         }

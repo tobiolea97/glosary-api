@@ -1,10 +1,8 @@
 package com.daily.practice.data.services;
 
 import com.daily.practice.data.domain.Example;
-import com.daily.practice.data.domain.Expression;
 import com.daily.practice.data.repository.contract.IExampleRepository;
 import com.daily.practice.data.response.DataResponse;
-import com.daily.practice.data.response.DataResponse2;
 import com.daily.practice.data.services.contract.IExampleService;
 import com.daily.practice.data.utils.Results;
 import com.daily.practice.data.utils.Tools;
@@ -21,13 +19,13 @@ import java.util.List;
 public class ExampleService implements IExampleService {
     private final IExampleRepository exampleRepository;
     @Override
-    public DataResponse2<List<Example>> getExpressionExamples(int expressionId) {
-        DataResponse2<List<Example>> dataResponse = new DataResponse2<>();
+    public DataResponse<List<Example>> getExpressionExamples(int expressionId) {
+        DataResponse<List<Example>> dataResponse = new DataResponse<>();
         try {
             List<Example> examples = exampleRepository.getExpressionExamples(expressionId);
-            dataResponse = new DataResponse2(Results.OK, null, examples, HttpStatus.ACCEPTED);
+            dataResponse = new DataResponse(Results.OK, null, examples, HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            dataResponse = Tools.getDataResponseError2(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
+            dataResponse = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
         } finally {
             return dataResponse;
         }

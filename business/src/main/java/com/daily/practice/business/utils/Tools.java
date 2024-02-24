@@ -1,51 +1,19 @@
 package com.daily.practice.business.utils;
 
-import com.daily.practice.business.response.DataResponse;
-import com.daily.practice.business.response.ErrorResponse;
-import com.daily.practice.business.response.PersistResponse;
+import com.daily.practice.business.response.*;
 import com.daily.practice.business.utils.errors.AppException;
-import com.daily.practice.business.utils.errors.ErrorCodes;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class Tools {
-    public static ResponseEntity<ErrorResponse> getErrorResponseResponseEntity(BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            List<String> errors = bindingResult.getFieldErrors().stream()
-                    .map(FieldError::getDefaultMessage)
-                    .collect(Collectors.toList());
-
-            ErrorResponse errorResponse = new ErrorResponse(ErrorCodes.VALIDATION_ERROR, errors);
-            return ResponseEntity.badRequest().body(errorResponse);
-        }
-        return null;
+    public static PersistResponse_old getBadRequest2(String message, String descriptions) {
+        return getPersistErrorResponse2(message,descriptions,HttpStatus.UNAUTHORIZED);
     }
 
-    public static PersistResponse getBadRequest(AppException e, String descriptions) {
-        return getPersistErrorResponse(e,descriptions,HttpStatus.BAD_REQUEST);
-    }
-
-    public static PersistResponse getBadRequest(Exception e, String descriptions) {
-        return getPersistErrorResponse(e,descriptions,HttpStatus.BAD_REQUEST);
-    }
-    public static PersistResponse getUnauthorized(AppException e, String descriptions) {
-        return getPersistErrorResponse(e,descriptions,HttpStatus.UNAUTHORIZED);
-    }
-
-    public static PersistResponse getBadRequest(String message, String descriptions) {
-        return getPersistErrorResponse(message,descriptions,HttpStatus.UNAUTHORIZED);
-    }
-
-    private static PersistResponse getPersistErrorResponse(AppException e, String descriptions, HttpStatus httpStatus) {
+    private static PersistResponse_old getPersistErrorResponse2(AppException e, String descriptions, HttpStatus httpStatus) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(),e.getDescriptions());
         if(!descriptions.equals(""))
             errorResponse = new ErrorResponse(e.getMessage(),descriptions);
-        return new PersistResponse(
+        return new PersistResponse_old(
                 Results.ERROR,
                 errorResponse,
                 "",
@@ -53,9 +21,9 @@ public class Tools {
         );
     }
 
-    private static PersistResponse getPersistErrorResponse(String message, String descriptions, HttpStatus httpStatus) {
+    private static PersistResponse_old getPersistErrorResponse2(String message, String descriptions, HttpStatus httpStatus) {
         ErrorResponse errorResponse = new ErrorResponse(message,descriptions);
-        return new PersistResponse(
+        return new PersistResponse_old(
                 Results.ERROR,
                 errorResponse,
                 "",
@@ -63,33 +31,46 @@ public class Tools {
         );
     }
 
-    private static PersistResponse getPersistErrorResponse(Exception e, String descriptions, HttpStatus httpStatus) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(),descriptions);
-        return new PersistResponse(
-                Results.ERROR,
-                errorResponse,
-                "",
-                HttpStatus.BAD_REQUEST
-        );
-    }
-
-    public static DataResponse getDataResponseError(Exception e, String descriptions) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(),descriptions);
-        return new DataResponse(
-                Results.ERROR,
-                errorResponse,
-                "",
-                HttpStatus.BAD_REQUEST
-        );
-    }
-
-    public static DataResponse getDataResponseError(String message, String descriptions) {
+    public static DataResponse_old getDataResponseError2(String message, String descriptions) {
         ErrorResponse errorResponse = new ErrorResponse(message, descriptions);
-        return new DataResponse(
+        return new DataResponse_old(
                 Results.ERROR,
                 errorResponse,
                 "",
                 HttpStatus.BAD_REQUEST
         );
     }
+
+    /**/
+
+    public static <T> DataResponse<T> getDataResponseError(String code, String message) {
+        ErrorResponse errorResponse = new ErrorResponse(message, message);
+        return new DataResponse<T>(
+                Results.ERROR,
+                errorResponse,
+                null,
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    public static <T> PersistResponse<T> getBadRequest(String code, String description) {
+        return getPersistErrorResponse(code, description, HttpStatus.BAD_REQUEST);
+    }
+
+    public static <T> PersistResponse<T> getBadGateway2(String code, String description) {
+        return getPersistErrorResponse(code, description, HttpStatus.BAD_GATEWAY);
+    }
+
+    private static <T> PersistResponse<T> getPersistErrorResponse(String message, String descriptions, HttpStatus httpStatus) {
+        ErrorResponse errorResponse = new ErrorResponse(message,descriptions);
+        return new PersistResponse<T>(
+                Results.ERROR,
+                errorResponse,
+                null,
+                httpStatus
+        );
+    }
+
+
+
 }

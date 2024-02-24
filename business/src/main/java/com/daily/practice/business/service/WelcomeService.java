@@ -5,6 +5,7 @@ import com.daily.practice.business.domain.TopicType;
 import com.daily.practice.business.external.service.contract.IDataExternalService;
 import com.daily.practice.business.external.service.response.GetTopicTypesResponse;
 import com.daily.practice.business.external.service.response.GetTopicsResponse;
+import com.daily.practice.business.response.DataResponse_old;
 import com.daily.practice.business.response.DataResponse;
 import com.daily.practice.business.service.contract.IWelcomeService;
 import com.daily.practice.business.external.service.response.GetResponseParser;
@@ -24,14 +25,13 @@ import java.util.List;
 public class WelcomeService implements IWelcomeService {
     @Autowired
     IDataExternalService dataExternalService;
+
     @Override
-    public DataResponse getWelcomeScreenData() {
-        DataResponse dataResponse = new DataResponse();
-        GetResponseParser<GetTopicsResponse> topicsResponseParser = new GetResponseParser<>();
-        GetResponseParser<GetTopicTypesResponse> topicTypesResponseParser = new GetResponseParser<>();
+    public DataResponse<List<TopicType>> getWelcomeScreenData() {
+        DataResponse<List<TopicType>> response;
         try {
-            List<Topic> topics = (List<Topic>) topicsResponseParser.getData(dataExternalService.getTopics(), GetTopicsResponse.class);
-            List<TopicType> topicTypes = (List<TopicType>) topicTypesResponseParser.getData(dataExternalService.getTopicTypes(), GetTopicTypesResponse.class);
+            List<Topic> topics = dataExternalService.getTopics().getBody().getData();
+            List<TopicType> topicTypes = dataExternalService.getTopicTypes().getBody().getData();
             for (TopicType topicType : topicTypes) {
                 for (Topic topic : topics) {
                     if (topicType.getId() == topic.getTopicTypeId()) {
@@ -39,11 +39,12 @@ public class WelcomeService implements IWelcomeService {
                     }
                 }
             }
-            dataResponse = new DataResponse(Results.OK, "", topicTypes, HttpStatus.ACCEPTED);
-        } catch (Exception e) {
-            dataResponse = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
-        } finally {
-            return dataResponse;
+            response = new DataResponse<>(Results.OK, null, topicTypes, HttpStatus.ACCEPTED);
+        } catch(Exception e) {
+            response = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
         }
+        return response;
     }
+
+
 }

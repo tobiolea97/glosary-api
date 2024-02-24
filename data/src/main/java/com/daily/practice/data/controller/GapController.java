@@ -2,7 +2,6 @@ package com.daily.practice.data.controller;
 
 import com.daily.practice.data.domain.Gap;
 import com.daily.practice.data.response.DataResponse;
-import com.daily.practice.data.response.DataResponse2;
 import com.daily.practice.data.services.contract.IGapService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +18,8 @@ import java.util.List;
 public class GapController {
     private final IGapService gapService;
     @GetMapping("/example/{exampleId}")
-    public ResponseEntity<DataResponse2<List<Gap>>> getExample(@PathVariable int exampleId) {
-        DataResponse2<List<Gap>> response = gapService.getGapsByExampleId(exampleId);
+    public ResponseEntity<DataResponse<List<Gap>>> getExample(@PathVariable int exampleId) {
+        DataResponse<List<Gap>> response = gapService.getGapsByExampleId(exampleId);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 }

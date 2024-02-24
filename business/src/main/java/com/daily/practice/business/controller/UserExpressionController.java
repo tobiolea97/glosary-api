@@ -1,7 +1,7 @@
 package com.daily.practice.business.controller;
 
 import com.daily.practice.business.external.service.request.PersistUserExpressionRequest;
-import com.daily.practice.business.response.PersistResponse;
+import com.daily.practice.business.response.PersistResponse_old;
 import com.daily.practice.business.service.contract.IUserExpressionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class UserExpressionController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> create(@RequestBody PersistUserExpressionRequest request) {
-        PersistResponse persistResponse = userExpressionService.create(request);
+        PersistResponse_old persistResponse = userExpressionService.create(request);
         return ResponseEntity.status(persistResponse.getStatus()).body(persistResponse);
     }
 

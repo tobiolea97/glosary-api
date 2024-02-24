@@ -2,7 +2,6 @@ package com.daily.practice.data.controller;
 
 import com.daily.practice.data.domain.QuizItem;
 import com.daily.practice.data.response.DataResponse;
-import com.daily.practice.data.response.DataResponse2;
 import com.daily.practice.data.services.contract.IQuizService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +18,8 @@ import java.util.List;
 public class QuizController {
     private final IQuizService quizService;
     @GetMapping("/user/{userId}/topic/{topicId}")
-    public ResponseEntity<DataResponse2<List<QuizItem>>> getQuizItemsForUserAndTopic(@PathVariable("userId") int userId, @PathVariable("topicId") int topicId) {
-        DataResponse2<List<QuizItem>> response = quizService.getQuizItemsForUserAndTopic(userId, topicId);
+    public ResponseEntity<DataResponse<List<QuizItem>>> getQuizItemsForUserAndTopic(@PathVariable("userId") int userId, @PathVariable("topicId") int topicId) {
+        DataResponse<List<QuizItem>> response = quizService.getQuizItemsForUserAndTopic(userId, topicId);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 }

@@ -11,10 +11,10 @@ import org.springframework.http.HttpStatus;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DataResponse {
+public class DataResponse<T> {
     private String result;
-    private Object errors;
-    private Object data;
+    private ErrorResponse error;
+    private T data;
     @JsonIgnore
     private HttpStatus status;
 }

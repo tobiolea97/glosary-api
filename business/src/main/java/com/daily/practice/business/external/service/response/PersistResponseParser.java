@@ -1,7 +1,6 @@
 package com.daily.practice.business.external.service.response;
 
-import com.daily.practice.business.external.service.response.contract.IAPIPersistResponse;
-import com.daily.practice.business.response.PersistResponse;
+import com.daily.practice.business.response.PersistResponse_old;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.LinkedHashMap;
@@ -9,10 +8,10 @@ import java.util.LinkedHashMap;
 public class PersistResponseParser {
 
     public static Object getPersistedObject(LinkedHashMap rawResponse) {
-        PersistResponse mappedResponse;
+        PersistResponse_old mappedResponse;
         ObjectMapper mapper = new ObjectMapper();
         try {
-            mappedResponse = mapper.readValue(mapper.writeValueAsString(rawResponse), PersistResponse.class);
+            mappedResponse = mapper.readValue(mapper.writeValueAsString(rawResponse), PersistResponse_old.class);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

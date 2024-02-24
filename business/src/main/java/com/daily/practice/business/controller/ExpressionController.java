@@ -1,6 +1,6 @@
 package com.daily.practice.business.controller;
 
-import com.daily.practice.business.response.DataResponse;
+import com.daily.practice.business.response.DataResponse_old;
 import com.daily.practice.business.service.contract.IUserExpressionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ public class ExpressionController {
 
     @GetMapping("/new/{userId}")
     private ResponseEntity<?> getNewExpressions(@PathVariable int userId) {
-        DataResponse dataResponse = expressionService.getNewExpressionsForUser(userId);
+        DataResponse_old dataResponse = expressionService.getNewExpressionsForUser(userId);
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
     }
 

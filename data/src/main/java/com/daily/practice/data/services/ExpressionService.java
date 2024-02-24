@@ -1,10 +1,8 @@
 package com.daily.practice.data.services;
 
-import com.daily.practice.data.domain.Example;
 import com.daily.practice.data.domain.Expression;
 import com.daily.practice.data.repository.contract.IExpressionRepository;
 import com.daily.practice.data.response.DataResponse;
-import com.daily.practice.data.response.DataResponse2;
 import com.daily.practice.data.services.contract.IExpressionService;
 import com.daily.practice.data.utils.Results;
 import com.daily.practice.data.utils.Tools;
@@ -23,43 +21,40 @@ public class ExpressionService implements IExpressionService {
 
     private final IExpressionRepository expressionRepository;
     @Override
-    public DataResponse2<List<Expression>> getNewExpressionsForUser(int userId) {
-        DataResponse2<List<Expression>> dataResponse = new DataResponse2<>();
+    public DataResponse<List<Expression>> getNewExpressionsForUser(int userId) {
+        DataResponse<List<Expression>> dataResponse = new DataResponse<>();
         try {
             List<Expression> expressions = expressionRepository.getNewExpressionsForUser(userId, 0);
-            dataResponse = new DataResponse2<>(Results.OK, null, expressions, HttpStatus.ACCEPTED);
+            dataResponse = new DataResponse<>(Results.OK, null, expressions, HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            dataResponse = Tools.getDataResponseError2(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
-        } finally {
-            return dataResponse;
+            dataResponse = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
         }
+        return dataResponse;
     }
 
     @Override
-    public DataResponse2<Expression> getExpressionById(int expressionId) {
-        DataResponse2<Expression> dataResponse = new DataResponse2<>();
+    public DataResponse<Expression> getExpressionById(int expressionId) {
+        DataResponse<Expression> dataResponse = new DataResponse<>();
         try {
             Expression expression = expressionRepository.getExpressionById(expressionId);
-            dataResponse = new DataResponse2<Expression>(Results.OK, null, expression, HttpStatus.ACCEPTED);
+            dataResponse = new DataResponse<Expression>(Results.OK, null, expression, HttpStatus.ACCEPTED);
         } catch(EmptyResultDataAccessException e) {
-            dataResponse = Tools.getDataResponseError2(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.NON_EXISTING_RECORD);
+            dataResponse = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.NON_EXISTING_RECORD);
         } catch (Exception e) {
-            dataResponse = Tools.getDataResponseError2(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
-        } finally {
-            return dataResponse;
+            dataResponse = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
         }
+        return dataResponse;
     }
 
     @Override
-    public DataResponse2<List<Expression>> getExpressionsByUserId(int userId) {
-        DataResponse2<List<Expression>> dataResponse = new DataResponse2<>();
+    public DataResponse<List<Expression>> getExpressionsByUserId(int userId) {
+        DataResponse<List<Expression>> dataResponse = new DataResponse<>();
         try {
             List<Expression> expressions = expressionRepository.getExpressionsByUserId(userId);
-            dataResponse = new DataResponse2(Results.OK, null, expressions, HttpStatus.ACCEPTED);
+            dataResponse = new DataResponse(Results.OK, null, expressions, HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            dataResponse = Tools.getDataResponseError2(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
-        } finally {
-            return dataResponse;
+            dataResponse = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
         }
+        return dataResponse;
     }
 }

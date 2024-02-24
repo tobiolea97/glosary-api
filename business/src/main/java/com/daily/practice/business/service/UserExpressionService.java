@@ -7,8 +7,8 @@ import com.daily.practice.business.domain.UserExpression;
 import com.daily.practice.business.external.service.contract.IDataExternalService;
 import com.daily.practice.business.external.service.request.PersistUserExpressionRequest;
 import com.daily.practice.business.external.service.response.*;
-import com.daily.practice.business.response.DataResponse;
-import com.daily.practice.business.response.PersistResponse;
+import com.daily.practice.business.response.DataResponse_old;
+import com.daily.practice.business.response.PersistResponse_old;
 import com.daily.practice.business.service.contract.IUserExpressionService;
 import com.daily.practice.business.utils.Results;
 import com.daily.practice.business.utils.Tools;
@@ -27,22 +27,22 @@ import java.util.List;
 public class UserExpressionService implements IUserExpressionService {
     private final IDataExternalService dataExternalService;
     @Override
-    public DataResponse getNewExpressionsForUser(int userId) {
-        DataResponse dataResponse = new DataResponse();
+    public DataResponse_old getNewExpressionsForUser(int userId) {
+        DataResponse_old dataResponse = new DataResponse_old();
         GetResponseParser<GetExpressionsResponse> expressionGetResponseParser = new GetResponseParser<>();
         try {
             List<Expression> expressions = (List<Expression>) expressionGetResponseParser.getData(dataExternalService.getNewExpressions(userId), GetExpressionsResponse.class);
-            dataResponse = new DataResponse(Results.OK, "", expressions, HttpStatus.ACCEPTED);
+            dataResponse = new DataResponse_old(Results.OK, "", expressions, HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            dataResponse = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
+            dataResponse = Tools.getDataResponseError2(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
         } finally {
             return dataResponse;
         }
     }
 
     @Override
-    public DataResponse getUserExpressions(int userId) {
-        DataResponse response = new DataResponse();
+    public DataResponse_old getUserExpressions(int userId) {
+        DataResponse_old response = new DataResponse_old();
         GetResponseParser<GetUserExpressionsResponse> userExpressionsResponseParser = new GetResponseParser<>();
         GetResponseParser<GetTopicsResponse> topicsResponseParser = new GetResponseParser<>();
         GetResponseParser<GetExpressionsResponse> expressionResponseParser = new GetResponseParser<>();
@@ -57,26 +57,26 @@ public class UserExpressionService implements IUserExpressionService {
                 stats.add(stat);
             }
 
-            response = new DataResponse(Results.OK,"",stats,HttpStatus.ACCEPTED);
+            response = new DataResponse_old(Results.OK,"",stats,HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            response = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
+            response = Tools.getDataResponseError2(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
         } finally {
             return response;
         }
     }
 
     @Override
-    public PersistResponse create(PersistUserExpressionRequest request) {
-        PersistResponse persistResponse = new PersistResponse();
+    public PersistResponse_old create(PersistUserExpressionRequest request) {
+        PersistResponse_old persistResponse = new PersistResponse_old();
         try {
             LinkedHashMap response = (LinkedHashMap) dataExternalService.createUserExpression(request).getBody();
-            persistResponse = new PersistResponse(
+            persistResponse = new PersistResponse_old(
                     Results.OK, "",
                     PersistResponseParser.getPersistedObject(response),
                     HttpStatus.OK
             );
         } catch (Exception e) {
-            persistResponse = Tools.getBadRequest(ErrorCodes.COULD_NOT_SAVE_RECORD, ErrorDescriptions.COULD_NOT_SAVE_RECORD);
+            persistResponse = Tools.getBadRequest2(ErrorCodes.COULD_NOT_SAVE_RECORD, ErrorDescriptions.COULD_NOT_SAVE_RECORD);
         } finally {
             return persistResponse;
         }

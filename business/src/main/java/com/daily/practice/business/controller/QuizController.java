@@ -1,6 +1,6 @@
 package com.daily.practice.business.controller;
 
-import com.daily.practice.business.response.DataResponse;
+import com.daily.practice.business.response.DataResponse_old;
 import com.daily.practice.business.service.contract.IQuizService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ public class QuizController {
 
     @GetMapping("/user/{userId}/topic/{topicId}")
     public ResponseEntity<?> getQuiz(@PathVariable("userId") int userId, @PathVariable("topicId") int topicId) {
-        DataResponse response = quizService.getQuiz(userId, topicId);
+        DataResponse_old response = quizService.getQuiz(userId, topicId);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
