@@ -28,8 +28,7 @@ public class UserTopicService implements IUserTopicService {
             persistResponse = Tools.getBadRequest(ErrorCodes.SQL_ERROR, ErrorDescriptions.COULD_NOT_SAVE_RECORD);
         } catch (Exception e) {
             persistResponse = Tools.getBadRequest(ErrorCodes.COULD_NOT_SAVE_RECORD, ErrorDescriptions.COULD_NOT_SAVE_RECORD);
-        } finally {
-            return persistResponse;
         }
+        return persistResponse;
     }
 }

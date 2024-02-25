@@ -5,11 +5,7 @@ import com.daily.practice.business.domain.Stat;
 import com.daily.practice.business.domain.Topic;
 import com.daily.practice.business.domain.UserExpression;
 import com.daily.practice.business.external.service.contract.IDataExternalService;
-import com.daily.practice.business.external.service.response.GetExpressionsResponse;
-import com.daily.practice.business.external.service.response.GetResponseParser;
-import com.daily.practice.business.external.service.response.GetTopicsResponse;
-import com.daily.practice.business.external.service.response.GetUserExpressionsResponse;
-import com.daily.practice.business.response.DataResponse_old;
+import com.daily.practice.business.response.DataResponse;
 import com.daily.practice.business.service.contract.IHomeService;
 import com.daily.practice.business.utils.Results;
 import com.daily.practice.business.utils.Tools;
@@ -27,25 +23,20 @@ import java.util.List;
 public class HomeService implements IHomeService {
     private final IDataExternalService externalService;
     @Override
-    public DataResponse_old getStats(int userId) {
-        DataResponse_old response = new DataResponse_old();
-        GetResponseParser<GetUserExpressionsResponse> userExpressionsResponseParser = new GetResponseParser<>();
-        GetResponseParser<GetTopicsResponse> topicsResponseParser = new GetResponseParser<>();
-        GetResponseParser<GetExpressionsResponse> expressionResponseParser = new GetResponseParser<>();
+    public DataResponse<List<Stat>> getStats(int userId) {
+        DataResponse<List<Stat>> response = new DataResponse<>();
         try {
-            List<UserExpression> userExpressions = (List<UserExpression>) userExpressionsResponseParser.getData(externalService.getUserExpressionsByUserId(userId), GetUserExpressionsResponse.class);
-            List<Topic> topics = (List<Topic>) topicsResponseParser.getData(externalService.getTopicsByUserId(userId), GetTopicsResponse.class);
-            List<Expression> expressions = (List<Expression>) expressionResponseParser.getData(externalService.getExpressionsByUserId(userId), GetExpressionsResponse.class);
+            List<UserExpression> userExpressions = externalService.getUserExpressionsByUserId(userId).getBody().getData();
+            List<Topic> topics = externalService.getTopicsByUserId(userId).getBody().getData();
+            List<Expression> expressions = externalService.getExpressionsByUserId(userId).getBody().getData();
             List<Stat> stats = new ArrayList<>();
-
             for(Topic topic : topics) {
                 Stat stat = new Stat(topic.getId(), topic.getName(), userExpressions,expressions);
                 stats.add(stat);
             }
-
-            response = new DataResponse_old(Results.OK,"",stats, HttpStatus.ACCEPTED);
+            response = new DataResponse<>(Results.OK,null,stats, HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            response = Tools.getDataResponseError2(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
+            response = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
         } finally {
             return response;
         }

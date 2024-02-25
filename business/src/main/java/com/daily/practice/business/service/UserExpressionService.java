@@ -9,6 +9,7 @@ import com.daily.practice.business.external.service.request.PersistUserExpressio
 import com.daily.practice.business.external.service.response.*;
 import com.daily.practice.business.response.DataResponse;
 import com.daily.practice.business.response.DataResponse_old;
+import com.daily.practice.business.response.PersistResponse;
 import com.daily.practice.business.response.PersistResponse_old;
 import com.daily.practice.business.service.contract.IUserExpressionService;
 import com.daily.practice.business.utils.Results;
@@ -64,19 +65,14 @@ public class UserExpressionService implements IUserExpressionService {
     }
 
     @Override
-    public PersistResponse_old create(PersistUserExpressionRequest request) {
-        PersistResponse_old persistResponse = new PersistResponse_old();
+    public PersistResponse<UserExpression> create(PersistUserExpressionRequest request) {
+        PersistResponse<UserExpression> response = new PersistResponse<>();
         try {
-            LinkedHashMap response = (LinkedHashMap) dataExternalService.createUserExpression(request).getBody();
-            persistResponse = new PersistResponse_old(
-                    Results.OK, "",
-                    PersistResponseParser.getPersistedObject(response),
-                    HttpStatus.OK
-            );
+            UserExpression userExpression = dataExternalService.createUserExpression(request).getBody().getPersistedObject();
+            response = new PersistResponse(Results.OK, null, userExpression, HttpStatus.OK);
         } catch (Exception e) {
-            persistResponse = Tools.getBadRequest2(ErrorCodes.COULD_NOT_SAVE_RECORD, ErrorDescriptions.COULD_NOT_SAVE_RECORD);
-        } finally {
-            return persistResponse;
+            response = Tools.getBadRequest(ErrorCodes.COULD_NOT_SAVE_RECORD, ErrorDescriptions.COULD_NOT_SAVE_RECORD);
         }
+        return response;
     }
 }

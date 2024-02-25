@@ -1,12 +1,10 @@
 package com.daily.practice.business.external.service.contract;
 
-import com.daily.practice.business.domain.Expression;
-import com.daily.practice.business.domain.Topic;
-import com.daily.practice.business.domain.TopicType;
-import com.daily.practice.business.domain.UserExpression;
+import com.daily.practice.business.domain.*;
 import com.daily.practice.business.external.service.request.CreateUserTopicRequest;
 import com.daily.practice.business.external.service.request.PersistUserExpressionRequest;
 import com.daily.practice.business.response.DataResponse;
+import com.daily.practice.business.response.PersistResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,13 +21,13 @@ public interface IDataExternalService {
     @GetMapping("topics/types")
     ResponseEntity<DataResponse<List<TopicType>>> getTopicTypes();
     @PostMapping("/user-topic")
-    ResponseEntity<?> assignTopicToUser(@RequestBody CreateUserTopicRequest request);
+    ResponseEntity<PersistResponse<UserTopic>> assignTopicToUser(@RequestBody CreateUserTopicRequest request);
     @GetMapping("/{expressionId}")
     ResponseEntity<?> getExpressionById(@PathVariable int expressionId);
     @GetMapping("expression/new/{userId}")
     ResponseEntity<DataResponse<List<Expression>>> getNewExpressions(@PathVariable int userId);
     @PostMapping("user-expression")
-    ResponseEntity<?> createUserExpression(@RequestBody PersistUserExpressionRequest request);
+    ResponseEntity<PersistResponse<UserExpression>> createUserExpression(@RequestBody PersistUserExpressionRequest request);
 
     @GetMapping("user-expression/{userId}")
     ResponseEntity<DataResponse<List<UserExpression>>> getUserExpressionsByUserId(@PathVariable int userId);
