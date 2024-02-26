@@ -11,10 +11,10 @@ import org.springframework.http.HttpStatus;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PersistResponse {
+public class PersistResponse<T> {
     private String result;
-    private Object errors;
-    private Object persistedObject;
+    private ErrorResponse errors;
+    private T persistedObject;
     @JsonIgnore
     private HttpStatus status;
 }

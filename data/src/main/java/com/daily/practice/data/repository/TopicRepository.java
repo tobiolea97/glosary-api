@@ -2,10 +2,7 @@ package com.daily.practice.data.repository;
 
 import com.daily.practice.data.domain.Topic;
 import com.daily.practice.data.domain.TopicType;
-import com.daily.practice.data.domain.UserTopic;
 import com.daily.practice.data.repository.contract.ITopicRepository;
-import com.daily.practice.data.repository.contract.IUserTopicRepository;
-import com.daily.practice.data.response.PersistResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

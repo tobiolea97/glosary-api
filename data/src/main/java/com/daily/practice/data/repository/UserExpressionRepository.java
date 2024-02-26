@@ -2,12 +2,10 @@ package com.daily.practice.data.repository;
 
 import com.daily.practice.data.domain.UserExpression;
 import com.daily.practice.data.repository.contract.IUserExpressionRepository;
-import com.daily.practice.data.response.PersistResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Repository

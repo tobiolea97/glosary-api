@@ -14,26 +14,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
-
 @Service
 @RequiredArgsConstructor
 public class UserTopicService implements IUserTopicService {
-
-
     private final IUserTopicRepository userTopicRepository;
     @Override
-    public PersistResponse assignTopicToUser(CreateUserTopicRequest request) {
-        PersistResponse persistResponse = new PersistResponse();
+    public PersistResponse<UserTopic> assignTopicToUser(CreateUserTopicRequest request) {
+        PersistResponse<UserTopic> persistResponse = new PersistResponse<>();
         try {
             UserTopic userTopic = userTopicRepository.create(request.getUserId(), request.getTopicId());
-            persistResponse = new PersistResponse(Results.OK, "", userTopic, HttpStatus.OK);
+            persistResponse = new PersistResponse<>(Results.OK, null, userTopic, HttpStatus.OK);
         } catch(UncategorizedSQLException e) {
-            persistResponse = Tools.getBadRequest(ErrorCodes.SQL_ERROR, e.getCause().getMessage());
+            persistResponse = Tools.getBadRequest(ErrorCodes.SQL_ERROR, ErrorDescriptions.COULD_NOT_SAVE_RECORD);
         } catch (Exception e) {
             persistResponse = Tools.getBadRequest(ErrorCodes.COULD_NOT_SAVE_RECORD, ErrorDescriptions.COULD_NOT_SAVE_RECORD);
-        } finally {
-            return persistResponse;
         }
+        return persistResponse;
     }
 }

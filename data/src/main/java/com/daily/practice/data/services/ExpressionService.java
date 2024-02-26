@@ -21,43 +21,40 @@ public class ExpressionService implements IExpressionService {
 
     private final IExpressionRepository expressionRepository;
     @Override
-    public DataResponse getNewExpressionsForUser(int userId) {
-        DataResponse dataResponse = new DataResponse();
+    public DataResponse<List<Expression>> getNewExpressionsForUser(int userId) {
+        DataResponse<List<Expression>> dataResponse = new DataResponse<>();
         try {
             List<Expression> expressions = expressionRepository.getNewExpressionsForUser(userId, 0);
-            dataResponse = new DataResponse(Results.OK, "", expressions, HttpStatus.ACCEPTED);
+            dataResponse = new DataResponse<>(Results.OK, null, expressions, HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            dataResponse = Tools.getDataResponseError(e, "");
-        } finally {
-            return dataResponse;
+            dataResponse = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
         }
+        return dataResponse;
     }
 
     @Override
-    public DataResponse getExpressionById(int expressionId) {
-        DataResponse dataResponse = new DataResponse();
+    public DataResponse<Expression> getExpressionById(int expressionId) {
+        DataResponse<Expression> dataResponse = new DataResponse<>();
         try {
             Expression expression = expressionRepository.getExpressionById(expressionId);
-            dataResponse = new DataResponse(Results.OK, "", expression, HttpStatus.ACCEPTED);
+            dataResponse = new DataResponse<Expression>(Results.OK, null, expression, HttpStatus.ACCEPTED);
         } catch(EmptyResultDataAccessException e) {
             dataResponse = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.NON_EXISTING_RECORD);
         } catch (Exception e) {
             dataResponse = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
-        } finally {
-            return dataResponse;
         }
+        return dataResponse;
     }
 
     @Override
-    public DataResponse getExpressionsByUserId(int userId) {
-        DataResponse dataResponse = new DataResponse();
+    public DataResponse<List<Expression>> getExpressionsByUserId(int userId) {
+        DataResponse<List<Expression>> dataResponse = new DataResponse<>();
         try {
             List<Expression> expressions = expressionRepository.getExpressionsByUserId(userId);
-            dataResponse = new DataResponse(Results.OK, "", expressions, HttpStatus.ACCEPTED);
+            dataResponse = new DataResponse(Results.OK, null, expressions, HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            dataResponse = Tools.getDataResponseError(e, "");
-        } finally {
-            return dataResponse;
+            dataResponse = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
         }
+        return dataResponse;
     }
 }
