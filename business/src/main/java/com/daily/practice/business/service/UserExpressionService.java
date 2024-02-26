@@ -32,7 +32,7 @@ public class UserExpressionService implements IUserExpressionService {
     public DataResponse<List<Expression>> getNewExpressionsForUser(int userId) {
         DataResponse<List<Expression>> response;
         try {
-            DataResponse<List<Expression>> getNewExpressionsResponse = dataExternalService.getNewExpressions(userId).getBody();
+            DataResponse<List<Expression>> getNewExpressionsResponse = dataExternalService.getExpressionsByUserId(userId, true).getBody();
             List<Expression> expressions;
             if (getNewExpressionsResponse != null) {
                 expressions = getNewExpressionsResponse.getData();
@@ -51,7 +51,7 @@ public class UserExpressionService implements IUserExpressionService {
         try {
             List<UserExpression> userExpressions = dataExternalService.getUserExpressionsByUserId(userId).getBody().getData();
             List<Topic> topics = dataExternalService.getTopicsByUserId(userId).getBody().getData();
-            List<Expression> expressions = dataExternalService.getExpressionsByUserId(userId).getBody().getData();
+            List<Expression> expressions = dataExternalService.getExpressionsByUserId(userId, false).getBody().getData();
             List<Stat> stats = new ArrayList<>();
             for(Topic topic : topics) {
                 Stat stat = new Stat(topic.getId(), topic.getName(), userExpressions,expressions);

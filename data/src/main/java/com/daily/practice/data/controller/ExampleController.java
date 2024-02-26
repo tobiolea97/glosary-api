@@ -23,18 +23,4 @@ public class ExampleController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
-    /*
-    @GetMapping("/expression2/{expressionId}")
-    public ResponseEntity<DataResponse2<List<Example>>> getExample2(@PathVariable int expressionId) {
-        DataResponse2<List<Example>> response = exampleService.getExpressionExamples2(expressionId);
-        return ResponseEntity.status(response.getStatus()).body(response);
-    }
-
-    @GetMapping("/expression3/{expressionId}")
-    public ResponseEntity<DataResponse2<Example>> getExample3(@PathVariable int expressionId) {
-        DataResponse2<Example> response = exampleService.getExpressionExamples3(expressionId);
-        return ResponseEntity.status(response.getStatus()).body(response);
-    }
-    */
-
 }

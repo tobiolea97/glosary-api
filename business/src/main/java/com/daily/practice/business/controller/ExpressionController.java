@@ -16,7 +16,7 @@ import java.util.List;
 public class ExpressionController {
     private final IUserExpressionService expressionService;
 
-    @GetMapping("/new/{userId}")
+    @GetMapping("/user/{userId}")
     private ResponseEntity<DataResponse<List<Expression>>> getNewExpressions(@PathVariable int userId) {
         DataResponse<List<Expression>> dataResponse = expressionService.getNewExpressionsForUser(userId);
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);

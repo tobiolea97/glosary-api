@@ -24,8 +24,6 @@ public interface IDataExternalService {
     ResponseEntity<PersistResponse<UserTopic>> assignTopicToUser(@RequestBody CreateUserTopicRequest request);
     @GetMapping("/{expressionId}")
     ResponseEntity<?> getExpressionById(@PathVariable int expressionId);
-    @GetMapping("expression/new/{userId}")
-    ResponseEntity<DataResponse<List<Expression>>> getNewExpressions(@PathVariable int userId);
     @PostMapping("user-expression")
     ResponseEntity<PersistResponse<UserExpression>> createUserExpression(@RequestBody PersistUserExpressionRequest request);
 
@@ -34,8 +32,8 @@ public interface IDataExternalService {
     @GetMapping("topics/{userId}")
     ResponseEntity<DataResponse<List<Topic>>> getTopicsByUserId(@PathVariable int userId);
 
-    @GetMapping("expression/user/{userId}")
-    ResponseEntity<DataResponse<List<Expression>>> getExpressionsByUserId(@PathVariable int userId);
+    @GetMapping("expression/user/{userId}/new/{newFlag}")
+    ResponseEntity<DataResponse<List<Expression>>> getExpressionsByUserId(@PathVariable int userId, @PathVariable boolean newFlag);
 
     @GetMapping("quiz/user/{userId}/topic/{topicId}")
     ResponseEntity<DataResponse<List<QuizItem>>> getQuizItemsForUserAndTopic(@PathVariable("userId") int userId, @PathVariable("topicId") int topicId);

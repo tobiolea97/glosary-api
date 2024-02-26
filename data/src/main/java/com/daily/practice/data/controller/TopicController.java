@@ -23,14 +23,14 @@ public class TopicController {
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
     }
 
-    @GetMapping("types")
+    @GetMapping("/types")
     public ResponseEntity<DataResponse<List<TopicType>>> getTopicTypes() {
         DataResponse<List<TopicType>> dataResponse = topicsService.getTopicTypes();
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
     }
 
 
-    @GetMapping("{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<DataResponse<List<Topic>>> getTopicsByUserId(@PathVariable int userId) {
         DataResponse<List<Topic>> dataResponse = topicsService.getTopicsByUserId(userId);
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);

@@ -20,17 +20,6 @@ import java.util.List;
 public class ExpressionService implements IExpressionService {
 
     private final IExpressionRepository expressionRepository;
-    @Override
-    public DataResponse<List<Expression>> getNewExpressionsForUser(int userId) {
-        DataResponse<List<Expression>> dataResponse = new DataResponse<>();
-        try {
-            List<Expression> expressions = expressionRepository.getNewExpressionsForUser(userId, 0);
-            dataResponse = new DataResponse<>(Results.OK, null, expressions, HttpStatus.ACCEPTED);
-        } catch (Exception e) {
-            dataResponse = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
-        }
-        return dataResponse;
-    }
 
     @Override
     public DataResponse<Expression> getExpressionById(int expressionId) {
@@ -47,10 +36,15 @@ public class ExpressionService implements IExpressionService {
     }
 
     @Override
-    public DataResponse<List<Expression>> getExpressionsByUserId(int userId) {
-        DataResponse<List<Expression>> dataResponse = new DataResponse<>();
+    public DataResponse<List<Expression>> getExpressionsByUserId(int userId, boolean newFlag) {
+        DataResponse<List<Expression>> dataResponse;
+        List<Expression> expressions;
         try {
-            List<Expression> expressions = expressionRepository.getExpressionsByUserId(userId);
+            if(newFlag)
+                expressions = expressionRepository.getNewExpressionsForUser(userId, 0);
+            else
+                expressions = expressionRepository.getExpressionsByUserId(userId);
+
             dataResponse = new DataResponse(Results.OK, null, expressions, HttpStatus.ACCEPTED);
         } catch (Exception e) {
             dataResponse = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);

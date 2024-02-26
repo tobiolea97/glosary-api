@@ -28,7 +28,7 @@ public class HomeService implements IHomeService {
         try {
             List<UserExpression> userExpressions = externalService.getUserExpressionsByUserId(userId).getBody().getData();
             List<Topic> topics = externalService.getTopicsByUserId(userId).getBody().getData();
-            List<Expression> expressions = externalService.getExpressionsByUserId(userId).getBody().getData();
+            List<Expression> expressions = externalService.getExpressionsByUserId(userId,false).getBody().getData();
             List<Stat> stats = new ArrayList<>();
             for(Topic topic : topics) {
                 Stat stat = new Stat(topic.getId(), topic.getName(), userExpressions,expressions);

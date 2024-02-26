@@ -14,21 +14,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ExpressionController {
     private final IExpressionService expressionService;
-    @GetMapping("/new/{userId}")
-    private ResponseEntity<DataResponse<List<Expression>>> getNewExpressions(@PathVariable int userId) {
-        DataResponse<List<Expression>> dataResponse = expressionService.getNewExpressionsForUser(userId);
-        return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
-    }
-
     @GetMapping("/{expressionId}")
     private ResponseEntity<DataResponse<Expression>> getExpressionById(@PathVariable int expressionId) {
         DataResponse<Expression> dataResponse = expressionService.getExpressionById(expressionId);
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
     }
 
-    @GetMapping("/user/{userId}")
-    private ResponseEntity<?> getExpressionsByUserId(@PathVariable int userId) {
-        DataResponse<List<Expression>> dataResponse = expressionService.getExpressionsByUserId(userId);
+    @GetMapping("/user/{userId}/new/{newFlag}")
+    private ResponseEntity<?> getExpressionsByUserId(@PathVariable int userId, @PathVariable boolean newFlag) {
+        DataResponse<List<Expression>> dataResponse = expressionService.getExpressionsByUserId(userId, newFlag);
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
     }
 
