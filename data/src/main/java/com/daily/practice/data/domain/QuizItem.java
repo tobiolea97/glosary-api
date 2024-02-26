@@ -13,10 +13,10 @@ public class QuizItem {
     private int expressionId;
     private int exampleId;
     private String sentence;
-    private String alternativeAnswer1;
-    private String wrongAnswer1;
-    private String wrongAnswer2;
-    private String wrongAnswer3;
-    private String wrongAnswer4;
+    private String option1;
+    private String option2;
+    private String option3;
+    private String option4;
+    private String option5;
 }
 

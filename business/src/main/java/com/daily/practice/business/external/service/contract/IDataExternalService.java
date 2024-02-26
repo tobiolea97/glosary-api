@@ -38,5 +38,5 @@ public interface IDataExternalService {
     ResponseEntity<DataResponse<List<Expression>>> getExpressionsByUserId(@PathVariable int userId);
 
     @GetMapping("quiz/user/{userId}/topic/{topicId}")
-    ResponseEntity<?> getQuizItemsForUserAndTopic(@PathVariable("userId") int userId, @PathVariable("topicId") int topicId);
+    ResponseEntity<DataResponse<List<QuizItem>>> getQuizItemsForUserAndTopic(@PathVariable("userId") int userId, @PathVariable("topicId") int topicId);
 }

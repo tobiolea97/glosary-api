@@ -16,9 +16,7 @@ import java.util.List;
 @RequestMapping("/welcome")
 @RequiredArgsConstructor
 public class WelcomeController {
-
     private final IWelcomeService welcomeService;
-
     @GetMapping
     public ResponseEntity<DataResponse<List<TopicType>>> getWelcomeScreenData() {
         DataResponse<List<TopicType>> response = welcomeService.getWelcomeScreenData();

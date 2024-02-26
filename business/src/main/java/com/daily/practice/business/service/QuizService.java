@@ -2,11 +2,14 @@ package com.daily.practice.business.service;
 
 import com.daily.practice.business.domain.QuizItem;
 import com.daily.practice.business.external.service.contract.IDataExternalService;
-import com.daily.practice.business.external.service.response.GetQuizItemsResponse;
-import com.daily.practice.business.external.service.response.GetResponseParser;
-import com.daily.practice.business.response.DataResponse_old;
+import com.daily.practice.business.response.DataResponse;
 import com.daily.practice.business.service.contract.IQuizService;
+import com.daily.practice.business.utils.Results;
+import com.daily.practice.business.utils.Tools;
+import com.daily.practice.business.utils.errors.ErrorCodes;
+import com.daily.practice.business.utils.errors.ErrorDescriptions;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,19 +19,19 @@ import java.util.List;
 public class QuizService implements IQuizService {
     private final IDataExternalService externalService;
     @Override
-    public DataResponse_old getQuiz(int userId, int topicId) {
-        DataResponse_old response = new DataResponse_old();
-        GetResponseParser<GetQuizItemsResponse> quizItemGetResponseParser = new GetResponseParser<>();
+    public DataResponse<List<QuizItem>> getQuiz(int userId, int topicId) {
+        DataResponse<List<QuizItem>> response;
         // parsers
         try {
-            List<QuizItem> quizItems = (List<QuizItem>) quizItemGetResponseParser.getData(externalService.getQuizItemsForUserAndTopic(userId, topicId), GetQuizItemsResponse.class);
-            // get quiz
-            // here I should prepare the response so that I randomize the order of the answers
-            response = new DataResponse_old();
+            List<QuizItem> quizItems = externalService.getQuizItemsForUserAndTopic(userId, topicId).getBody().getData();
+
+            for(int i = 0; i < quizItems.size(); i++)
+                quizItems.get(i).randomizeOptions();
+
+            response = new DataResponse<>(Results.OK, null, quizItems, HttpStatus.OK);
         } catch (Exception e) {
-            response = new DataResponse_old();
-        } finally {
-            return response;
+            response = Tools.getDataResponseError(ErrorCodes.ERROR_WHEN_RETREIVING_DATA, ErrorDescriptions.ERROR_WHEN_RETREIVING_DATA);
         }
+        return response;
     }
 }

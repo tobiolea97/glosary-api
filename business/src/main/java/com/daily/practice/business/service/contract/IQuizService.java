@@ -1,7 +1,10 @@
 package com.daily.practice.business.service.contract;
 
-import com.daily.practice.business.response.DataResponse_old;
+import com.daily.practice.business.domain.QuizItem;
+import com.daily.practice.business.response.DataResponse;
+
+import java.util.List;
 
 public interface IQuizService {
-    DataResponse_old getQuiz(int userId, int topicId);
+    DataResponse<List<QuizItem>> getQuiz(int userId, int topicId);
 }
