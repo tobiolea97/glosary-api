@@ -1,6 +1,7 @@
 package com.mule.daily.practice.apigateway.repository;
 
 import com.mule.daily.practice.apigateway.domain.Authentication;
+import com.mule.daily.practice.apigateway.domain.User;
 import com.mule.daily.practice.apigateway.repository.contract.IAuthenticationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 public class AuthenticationRepository implements IAuthenticationRepository {
     private final String GET_AUTHENTICATION = "SELECT * FROM USERS WHERE username = ?";
+    private final String EXISTS_BY_USERNAME = "SELECT COUNT(*) FROM USERS WHERE username = ?";
+    private final String SAVE = "INSERT INTO USERS (username, password) VALUES (?, ?)";
     private final JdbcTemplate jdbcTemplate;
     @Override
     public Authentication getAuthentication(String username) {
@@ -22,5 +25,16 @@ public class AuthenticationRepository implements IAuthenticationRepository {
                         rs.getString("password"),
                         new ArrayList<>()
                 ));
+    }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return jdbcTemplate.queryForObject(EXISTS_BY_USERNAME, new Object[]{username}, Integer.class) > 0;
+    }
+
+    @Override
+    public User save(User user) {
+        jdbcTemplate.update(SAVE, user.getUsername(), user.getPassword());
+        return user;
     }
 }
