@@ -190,3 +190,11 @@ INSERT INTO user_expressions (expression_id, user_id, score, last_completed, lea
 INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (14,1,4,'20240220', TRUE);
 INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (15,1,5,'20240221', TRUE);
 
+
+INSERT INTO authentication (id, username, password) VALUES (1, 'user', 'password');
+
+INSERT INTO roles (id, name) VALUES (1, 'ROLE_USER');
+INSERT INTO roles (id, name) VALUES (2, 'ROLE_USER');
+
+INSERT INTO user_roles (user_id, role_id) VALUES (1, 1);
+INSERT INTO user_roles (user_id, role_id) VALUES (1, 2);
