@@ -6,6 +6,9 @@ DROP TABLE IF EXISTS expressions;
 DROP TABLE IF EXISTS topics;
 DROP TABLE IF EXISTS topic_types;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS authentication;
+DROP TABLE IF EXISTS roles;
 
 CREATE TABLE topic_types (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -74,4 +77,23 @@ CREATE TABLE user_topics (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (topic_type_id) REFERENCES topics(id),
     UNIQUE(user_id, topic_type_id)
+);
+
+CREATE TABLE authentication (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(255),
+    password VARCHAR(255)
+);
+
+CREATE TABLE roles (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255)
+);
+
+CREATE TABLE user_roles (
+    user_id INTEGER,
+    role_id INTEGER,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (role_id) REFERENCES roles(id),
+    UNIQUE(user_id, role_id)
 );
