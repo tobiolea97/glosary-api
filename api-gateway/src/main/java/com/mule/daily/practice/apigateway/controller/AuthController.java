@@ -22,16 +22,15 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody SignUpDto signUpDto) {
         try {
-            Authentication auth = authenticationRepository.getAuthentication(signUpDto.getUsername());
-            if(auth != null)
+            if(authenticationRepository.existsByUsername(signUpDto.getUsername()))
                 throw new RuntimeException("Username already exists");
-//            if(authenticationRepository.existsByUsername(signUpDto.getUsername()))
-//                throw new RuntimeException("Username already exists");
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
         User user = new User();
+        user.setFirst_name(signUpDto.getFirstName());
+        user.setLast_name(signUpDto.getLastName());
         user.setUsername(signUpDto.getUsername());
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         authenticationRepository.save(user);

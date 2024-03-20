@@ -11,7 +11,7 @@ insert into topics(name, topic_type_id) VALUES('Wish', 2);
 insert into topics(name, topic_type_id) VALUES('Present tenses', 2);
 insert into topics(name, topic_type_id) VALUES('Past tenses', 2);
 
-insert into users(first_name, last_name, questions_per_quiz) VALUES ('Tobias', 'Olea', 10);
+insert into users(first_name, last_name, username, password, questions_per_quiz) VALUES ('Tobias', 'Olea', 'tobiolea', '$2a$10$43TVodx0PHCnOXfyWiDPr.Xn0yhs1oPf8jDW2mQgHpl.bR7rvhcd6', 10);
 
 insert into user_topics(user_id, topic_type_id) VALUES (1, 1);
 insert into user_topics(user_id, topic_type_id) VALUES (1, 2);
@@ -190,7 +190,7 @@ INSERT INTO user_expressions (expression_id, user_id, score, last_completed, lea
 INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (14,1,4,'20240220', TRUE);
 INSERT INTO user_expressions (expression_id, user_id, score, last_completed, learn) VALUES (15,1,5,'20240221', TRUE);
 
-INSERT INTO authentication (id, username, password) VALUES (1, 'user', 'password');
+--INSERT INTO authentication (id, username, password) VALUES (1, 'user', 'password');
 
 INSERT INTO roles (id, name) VALUES (1, 'ROLE_USER');
 INSERT INTO roles (id, name) VALUES (2, 'ROLE_ADMIN');

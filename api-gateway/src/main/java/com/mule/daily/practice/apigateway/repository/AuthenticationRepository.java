@@ -12,19 +12,20 @@ import java.util.ArrayList;
 @Repository
 @RequiredArgsConstructor
 public class AuthenticationRepository implements IAuthenticationRepository {
-    private final String GET_AUTHENTICATION = "SELECT * FROM authentication WHERE username = ?";
-    private final String EXISTS_BY_USERNAME = "SELECT count(*) FROM authentication WHERE username = ?";
-    private final String SAVE = "INSERT INTO authentication (username, password) VALUES (?, ?)";
+    private final String GET_AUTHENTICATION = "SELECT * FROM users WHERE username = ?";
+    private final String EXISTS_BY_USERNAME = "SELECT count(*) FROM users WHERE username = ?";
+    private final String SAVE = "INSERT INTO users (first_name, last_name, username, password) VALUES (?,?,?,?)";
     private final JdbcTemplate jdbcTemplate;
     @Override
-    public Authentication getAuthentication(String username) {
+    public User getAuthentication(String username) {
         return jdbcTemplate.queryForObject(GET_AUTHENTICATION, new Object[]{username}, (rs, rowNum) ->
-                new Authentication(
-                        rs.getInt("id"),
-                        rs.getString("username"),
-                        rs.getString("password"),
-                        new ArrayList<>()
-                ));
+            new User(
+                    rs.getInt("id"),
+                    rs.getString("first_name"),
+                    rs.getString("last_name"),
+                    rs.getString("username"),
+                    rs.getString("password")
+            ));
     }
 
     @Override
@@ -34,7 +35,7 @@ public class AuthenticationRepository implements IAuthenticationRepository {
 
     @Override
     public User save(User user) {
-        jdbcTemplate.update(SAVE, user.getUsername(), user.getPassword());
+        jdbcTemplate.update(SAVE, user.getFirst_name(), user.getLast_name(), user.getUsername(), user.getPassword());
         return user;
     }
 
