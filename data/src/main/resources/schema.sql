@@ -5,6 +5,8 @@ DROP TABLE IF EXISTS user_topics;
 DROP TABLE IF EXISTS expressions;
 DROP TABLE IF EXISTS topics;
 DROP TABLE IF EXISTS topic_types;
+DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE topic_types (
@@ -52,9 +54,11 @@ CREATE TABLE gaps (
 
 CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(255),
+    password VARCHAR(255),
     first_name VARCHAR(255),
     last_name VARCHAR(255),
-    questions_per_quiz INTEGER NOT NULL
+    questions_per_quiz INTEGER DEFAULT 0
 );
 
 CREATE TABLE user_expressions (
@@ -74,4 +78,17 @@ CREATE TABLE user_topics (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (topic_type_id) REFERENCES topics(id),
     UNIQUE(user_id, topic_type_id)
+);
+
+CREATE TABLE roles (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255)
+);
+
+CREATE TABLE user_roles (
+    user_id INTEGER,
+    role_id INTEGER,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (role_id) REFERENCES roles(id),
+    UNIQUE(user_id, role_id)
 );
