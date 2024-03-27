@@ -3,6 +3,7 @@ package com.mule.daily.practice.apigateway.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,14 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
+    public String generateToken(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.JWT_EXPIRATION_TOKEN))
+                .signWith(SignatureAlgorithm.HS512, SecurityConstants.JWT_FIRMA)
+                .compact();
+    }
 
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
