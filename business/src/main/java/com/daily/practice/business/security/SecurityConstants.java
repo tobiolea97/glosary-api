@@ -1,4 +1,4 @@
-package com.mule.daily.practice.apigateway.security;
+package com.daily.practice.business.security;
 
 public class SecurityConstants {
     public static final long JWT_EXPIRATION_TOKEN = 60 * 60 * 24 * 10 * 1000;

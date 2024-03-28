@@ -47,7 +47,8 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
             .authorizeExchange(authorize -> authorize
                     .pathMatchers("/api/v1/auth/**").permitAll()
-                    .anyExchange().authenticated()
+                    .anyExchange()
+                    .authenticated()
             )
             .httpBasic(withDefaults())
             .formLogin(withDefaults());

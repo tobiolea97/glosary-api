@@ -4,6 +4,7 @@ import com.mule.daily.practice.apigateway.domain.User;
 import com.mule.daily.practice.apigateway.dto.SignInDto;
 import com.mule.daily.practice.apigateway.dto.SignUpDto;
 import com.mule.daily.practice.apigateway.repository.contract.IAuthenticationRepository;
+import com.mule.daily.practice.apigateway.security.JwtUtil;
 import com.netflix.discovery.converters.Auto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,10 +62,14 @@ public class AuthController {
 
     @PostMapping("/signin")
     public Mono<ResponseEntity<String>> login(@RequestBody SignInDto signIn) {
+        JwtUtil jwtUtil = new JwtUtil();
         try {
             Authentication authentication = new UsernamePasswordAuthenticationToken(signIn.getUsername(), signIn.getPassword());
             return authenticationManager.authenticate(authentication)
-                    .map(auth -> new ResponseEntity<>("Login successful", HttpStatus.OK))
+                    .map(auth -> {
+                        String token = jwtUtil.generateToken(signIn.getUsername());
+                        return ResponseEntity.ok().header("Authorization", "Bearer " + token).body("Login successful");
+                    })
                     .onErrorResume(e -> Mono.just(new ResponseEntity<>("Login failed", HttpStatus.UNAUTHORIZED)));
         } catch (Exception e) {
             return Mono.just(new ResponseEntity<>("Login failed", HttpStatus.UNAUTHORIZED));
