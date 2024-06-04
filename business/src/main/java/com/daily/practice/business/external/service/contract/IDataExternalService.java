@@ -5,6 +5,7 @@ import com.daily.practice.business.external.service.request.CreateUserTopicReque
 import com.daily.practice.business.external.service.request.PersistUserExpressionRequest;
 import com.daily.practice.business.response.DataResponse;
 import com.daily.practice.business.response.PersistResponse;
+import com.daily.practice.business.security.FeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient("DP-DATA-SERVICE")
+@FeignClient(name = "DP-DATA-SERVICE")
 public interface IDataExternalService {
     @GetMapping("topics")
     ResponseEntity<DataResponse<List<Topic>>> getTopics();
